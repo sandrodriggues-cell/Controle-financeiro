@@ -1,0 +1,406 @@
+index.html
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestão Financeira Pessoal</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f4f6f9;
+}
+
+header {
+    background: #2c3e50;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    background: #34495e;
+}
+
+nav button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: #34495e;
+    color: white;
+    cursor: pointer;
+}
+
+nav button:hover {
+    background: #2c3e50;
+}
+
+.container {
+    padding: 20px;
+}
+
+input, select, button {
+    padding: 8px;
+    margin: 5px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.entrada { color: green; }
+.saida { color: red; }
+
+.resumo-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.resumo-card {
+    flex: 1;
+    min-width: 200px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.valor {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.grafico-box {
+    background: white;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    height: 400px;
+    position: relative;
+}
+
+canvas {
+    max-height: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Gestão Financeira Pessoal</h1>
+</header>
+
+<nav>
+<button onclick="mostrarAba('fluxo')">Fluxo de Caixa</button>
+<button onclick="mostrarAba('resumo')">Resumo</button>
+</nav>
+
+<div class="container">
+
+<!-- FLUXO -->
+<div id="fluxo">
+<h2>Registrar Transação</h2>
+
+<input type="date" id="data">
+<input type="text" id="descricao" placeholder="Descrição">
+<input type="number" id="valor" placeholder="Valor">
+
+<select id="tipo">
+<option value="entrada">Entrada</option>
+<option value="saida">Saída</option>
+</select>
+
+<input type="text" id="categoria" placeholder="Categoria">
+
+<select id="formaPagamento">
+<option>Dinheiro</option>
+<option>Cartão</option>
+<option>PIX</option>
+<option>Transferência</option>
+</select>
+
+<select id="status">
+<option>Recebido</option>
+<option>Pendente</option>
+</select>
+
+<button onclick="adicionarTransacao()">Adicionar</button>
+
+<table>
+<thead>
+<tr>
+<th>Data</th><th>Descrição</th><th>Categoria</th>
+<th>Forma</th><th>Status</th><th>Valor</th>
+<th>Tipo</th><th>Ação</th>
+</tr>
+</thead>
+<tbody id="tabelaTransacoes"></tbody>
+</table>
+</div>
+
+<!-- RESUMO -->
+<div id="resumo" style="display:none;">
+<h2>Resumo Financeiro</h2>
+
+<div class="resumo-container">
+<div class="resumo-card">
+<h3>Entradas</h3>
+<p id="totalEntradas" class="valor entrada">R$ 0.00</p>
+</div>
+
+<div class="resumo-card">
+<h3>Saídas</h3>
+<p id="totalSaidas" class="valor saida">R$ 0.00</p>
+</div>
+
+<div class="resumo-card">
+<h3>Saldo</h3>
+<p id="saldo" class="valor">R$ 0.00</p>
+</div>
+</div>
+
+<div class="grafico-box">
+<h3>Entradas por Categoria</h3>
+<canvas id="graficoEntradas"></canvas>
+</div>
+
+<div class="grafico-box">
+<h3>Saídas por Categoria</h3>
+<canvas id="graficoSaidas"></canvas>
+</div>
+
+<div class="grafico-box">
+<h3>Resumo Mensal</h3>
+<canvas id="graficoMensal"></canvas>
+</div>
+
+</div>
+
+<hr>
+<h3>Backup</h3>
+
+<button onclick="exportarJSON()">📤 Exportar JSON</button>
+<button onclick="exportarCSV()">📤 Exportar CSV</button>
+
+<input type="file" id="importarJSONFile" accept=".json" style="display:none" onchange="importarJSON(event)">
+<button onclick="document.getElementById('importarJSONFile').click()">📥 Importar JSON</button>
+
+<input type="file" id="importarCSVFile" accept=".csv" style="display:none" onchange="importarCSV(event)">
+<button onclick="document.getElementById('importarCSVFile').click()">📥 Importar CSV</button>
+
+</div>
+
+<script>
+let transacoes = JSON.parse(localStorage.getItem("transacoes")) || [];
+let graficoEntradas, graficoSaidas, graficoMensal;
+
+function salvarLocal(){
+localStorage.setItem("transacoes", JSON.stringify(transacoes));
+}
+
+function mostrarAba(aba){
+document.getElementById("fluxo").style.display="none";
+document.getElementById("resumo").style.display="none";
+document.getElementById(aba).style.display="block";
+atualizarResumo();
+if(aba==="resumo"){
+setTimeout(()=>{
+atualizarGraficoEntradas();
+atualizarGraficoSaidas();
+atualizarGraficoMensal();
+},100);
+}
+}
+
+function adicionarTransacao(){
+const data=document.getElementById("data").value;
+const descricao=document.getElementById("descricao").value;
+const valor=parseFloat(document.getElementById("valor").value);
+const tipo=document.getElementById("tipo").value;
+const categoria=document.getElementById("categoria").value;
+const formaPagamento=document.getElementById("formaPagamento").value;
+const status=document.getElementById("status").value;
+
+if(!data||!descricao||isNaN(valor)){
+alert("Preencha todos os campos!");
+return;
+}
+
+transacoes.push({data,descricao,valor,tipo,categoria,formaPagamento,status});
+salvarLocal();
+atualizarTabela();
+atualizarResumo();
+
+document.getElementById("data").value="";
+document.getElementById("descricao").value="";
+document.getElementById("valor").value="";
+}
+
+function atualizarTabela(){
+const tabela=document.getElementById("tabelaTransacoes");
+tabela.innerHTML="";
+transacoes.forEach((t,i)=>{
+tabela.innerHTML+=`
+<tr>
+<td>${t.data}</td>
+<td>${t.descricao}</td>
+<td>${t.categoria}</td>
+<td>${t.formaPagamento}</td>
+<td>${t.status}</td>
+<td class="${t.tipo}">R$ ${t.valor.toFixed(2)}</td>
+<td>${t.tipo}</td>
+<td><button onclick="remover(${i})">Excluir</button></td>
+</tr>`;
+});
+}
+
+function remover(i){
+transacoes.splice(i,1);
+salvarLocal();
+atualizarTabela();
+atualizarResumo();
+}
+
+function atualizarResumo(){
+let entradas=0,saidas=0;
+transacoes.forEach(t=>{
+if(t.tipo==="entrada") entradas+=t.valor;
+else saidas+=t.valor;
+});
+document.getElementById("totalEntradas").textContent="R$ "+entradas.toFixed(2);
+document.getElementById("totalSaidas").textContent="R$ "+saidas.toFixed(2);
+document.getElementById("saldo").textContent="R$ "+(entradas-saidas).toFixed(2);
+}
+
+function atualizarGraficoEntradas(){
+const cat={};
+transacoes.filter(t=>t.tipo==="entrada")
+.forEach(t=>cat[t.categoria]=(cat[t.categoria]||0)+t.valor);
+
+if(graficoEntradas)graficoEntradas.destroy();
+
+graficoEntradas=new Chart(document.getElementById("graficoEntradas"),{
+type:"pie",
+data:{labels:Object.keys(cat),datasets:[{data:Object.values(cat)}]},
+options:{responsive:true,maintainAspectRatio:false}
+});
+}
+
+function atualizarGraficoSaidas(){
+const cat={};
+transacoes.filter(t=>t.tipo==="saida")
+.forEach(t=>cat[t.categoria]=(cat[t.categoria]||0)+t.valor);
+
+if(graficoSaidas)graficoSaidas.destroy();
+
+graficoSaidas=new Chart(document.getElementById("graficoSaidas"),{
+type:"pie",
+data:{labels:Object.keys(cat),datasets:[{data:Object.values(cat)}]},
+options:{responsive:true,maintainAspectRatio:false}
+});
+}
+
+function atualizarGraficoMensal(){
+const meses={};
+transacoes.forEach(t=>{
+const mes=t.data.substring(0,7);
+if(!meses[mes]) meses[mes]={entrada:0,saida:0};
+meses[mes][t.tipo]+=t.valor;
+});
+
+const labels=Object.keys(meses);
+const entradas=labels.map(m=>meses[m].entrada);
+const saidas=labels.map(m=>meses[m].saida);
+const saldoFinal=labels.map(m=>meses[m].entrada-meses[m].saida);
+
+if(graficoMensal)graficoMensal.destroy();
+
+graficoMensal=new Chart(document.getElementById("graficoMensal"),{
+type:"bar",
+data:{
+labels,
+datasets:[
+{label:"Entradas",data:entradas,backgroundColor:"rgba(54,162,235,0.6)"},
+{label:"Saídas",data:saidas,backgroundColor:"rgba(255,99,132,0.6)"},
+{label:"Saldo Final",data:saldoFinal,type:"line",borderColor:"green",fill:false}
+]},
+options:{responsive:true,maintainAspectRatio:false}
+});
+}
+
+function exportarJSON(){
+if(transacoes.length===0){alert("Sem dados");return;}
+const blob=new Blob([JSON.stringify(transacoes,null,2)],{type:"application/json"});
+const link=document.createElement("a");
+link.href=URL.createObjectURL(blob);
+link.download="backup_financeiro.json";
+link.click();
+}
+
+function importarJSON(e){
+const reader=new FileReader();
+reader.onload=evt=>{
+transacoes=JSON.parse(evt.target.result);
+salvarLocal();
+atualizarTabela();
+atualizarResumo();
+alert("Importado com sucesso!");
+};
+reader.readAsText(e.target.files[0]);
+}
+
+function exportarCSV(){
+if(transacoes.length===0){alert("Sem dados");return;}
+let csv="data,descricao,categoria,formaPagamento,status,valor,tipo\n";
+transacoes.forEach(t=>{
+csv+=`${t.data},${t.descricao},${t.categoria},${t.formaPagamento},${t.status},${t.valor},${t.tipo}\n`;
+});
+const blob=new Blob([csv],{type:"text/csv"});
+const link=document.createElement("a");
+link.href=URL.createObjectURL(blob);
+link.download="backup_financeiro.csv";
+link.click();
+}
+
+function importarCSV(e){
+const reader=new FileReader();
+reader.onload=evt=>{
+const linhas=evt.target.result.split("\n").slice(1);
+linhas.forEach(l=>{
+if(!l.trim()) return;
+const [data,descricao,categoria,formaPagamento,status,valor,tipo]=l.split(",");
+transacoes.push({data,descricao,categoria,formaPagamento,status,valor:parseFloat(valor),tipo});
+});
+salvarLocal();
+atualizarTabela();
+atualizarResumo();
+alert("CSV importado!");
+};
+reader.readAsText(e.target.files[0]);
+}
+
+atualizarTabela();
+atualizarResumo();
+</script>
+
+</body>
+</html>
