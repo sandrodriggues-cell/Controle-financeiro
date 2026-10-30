@@ -367,6 +367,32 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
 .tile b{font-size:14px;font-weight:600} .tile span{font-size:12px;color:var(--muted)}
 .tile:active{background:var(--surface-2)}
 .foot[hidden]{display:none}
+
+/* ===== Tom suave: ícones na mesma cor, superfícies próximas do fundo ===== */
+:root{--soft:color-mix(in srgb,var(--bg) 93%,var(--fg));--soft-2:color-mix(in srgb,var(--bg) 87%,var(--fg));--hair:color-mix(in srgb,var(--bg) 90%,var(--fg));--ic:color-mix(in srgb,var(--fg) 82%,var(--bg))}
+.ic-round{background:var(--soft);color:var(--ic)}
+.ic-round[aria-pressed="true"],.ic-round[aria-expanded="true"]{background:var(--soft-2);color:var(--ic)}
+.ic-round svg{stroke-width:1.6}
+.dot{border-color:var(--soft)}
+.avatar{background:transparent;border:1px solid color-mix(in srgb,var(--fg) 30%,var(--bg));color:var(--ic);font-weight:400}
+.avatar[aria-expanded="true"]{border-color:var(--fg);color:var(--fg)}
+.mes-pill{background:var(--soft);border:0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.mes-arr,.mes-c{color:var(--ic)} .mes-c svg{color:var(--ic)} .mes-c{font-weight:500}
+.tabs{background:color-mix(in srgb,var(--soft) 94%,transparent);border:0;box-shadow:0 4px 18px rgba(0,0,0,.10)}
+.tabs button{color:var(--ic)}
+.tabs svg{stroke-width:1.6}
+.tabs button[aria-selected="true"]{background:var(--soft-2);color:var(--ic)}
+.panel,.kpi,.hero .kpi,.ins,.tile,.pop,.notice{background:var(--soft);border-color:var(--hair);box-shadow:none}
+.kpis{background:none;border:0;gap:10px}
+.kpis .kpi{border:1px solid var(--hair);border-radius:16px}
+.hero .kpi{background:var(--soft)}
+.hero .kpi::before{opacity:.7}
+.tile svg{stroke:var(--ic)}
+.pop{box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.ins-ic{opacity:.92}
+
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){--bg:#ffffff;--surface:#ffffff;--surface-2:#f4f5f7;--soft:#f6f7f9;--soft-2:#eceef1;--hair:#eef0f3;--line:#e6e8ec} }
+:root[data-theme="light"]{--bg:#ffffff;--surface:#ffffff;--surface-2:#f4f5f7;--soft:#f6f7f9;--soft-2:#eceef1;--hair:#eef0f3;--line:#e6e8ec}
 </style>
 </head>
 <body>
