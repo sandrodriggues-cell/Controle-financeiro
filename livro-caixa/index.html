@@ -393,6 +393,23 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
 
 @media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){--bg:#ffffff;--surface:#ffffff;--surface-2:#f4f5f7;--soft:#f6f7f9;--soft-2:#eceef1;--hair:#eef0f3;--line:#e6e8ec} }
 :root[data-theme="light"]{--bg:#ffffff;--surface:#ffffff;--surface-2:#f4f5f7;--soft:#f6f7f9;--soft-2:#eceef1;--hair:#eef0f3;--line:#e6e8ec}
+
+/* ===== Balões brancos com sombra difusa (estilo budgi) ===== */
+:root{--card:color-mix(in srgb,var(--bg) 94%,var(--fg));--sh:0 6px 24px rgba(0,0,0,.22);--sh-s:0 3px 14px rgba(0,0,0,.18)}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){--bg:#fbfbfc;--card:#ffffff;--soft-2:#f0f1f3;--sh:0 6px 26px rgba(17,24,39,.06);--sh-s:0 3px 16px rgba(17,24,39,.07)} }
+:root[data-theme="light"]{--bg:#fbfbfc;--card:#ffffff;--soft-2:#f0f1f3;--sh:0 6px 26px rgba(17,24,39,.06);--sh-s:0 3px 16px rgba(17,24,39,.07)}
+.panel,.kpi,.kpis .kpi,.hero .kpi,.ins,.tile,.notice{background:var(--card);border:0;box-shadow:var(--sh)}
+.notice{border-left:0}
+.hero .kpi{background:var(--card)}
+.hero .kpi::before{display:none}
+.mes-pill{background:var(--card);box-shadow:var(--sh)}
+.ic-round{background:var(--card);box-shadow:var(--sh-s)}
+.ic-round[aria-pressed="true"],.ic-round[aria-expanded="true"]{background:var(--soft-2);box-shadow:none}
+.avatar{background:var(--card)}
+.tabs{background:color-mix(in srgb,var(--card) 96%,transparent);box-shadow:var(--sh)}
+.tabs button[aria-selected="true"]{background:var(--soft-2)}
+.pop{background:var(--card);border:0}
+.kpis,.kpis-2,.kpis-3{padding-bottom:18px}
 </style>
 </head>
 <body>
