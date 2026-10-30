@@ -1,6 +1,6 @@
 {
-  "name": "Livro-Caixa",
-  "short_name": "Livro-Caixa",
+  "name": "kaixa",
+  "short_name": "kaixa",
   "description": "Finanças pessoais: caixa, cartões, investimentos e simulador.",
   "lang": "pt-BR",
   "start_url": "./",
