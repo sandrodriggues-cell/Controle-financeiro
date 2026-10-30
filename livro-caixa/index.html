@@ -430,6 +430,9 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
 /* painéis do topo ancorados no cabeçalho inteiro (não cortam na lateral) */
 .hd-wrap{position:static}
 .pop{left:auto;right:0;width:min(360px,100%);top:calc(100% + 8px)}
+
+#sim-prazos{display:flex;width:100%;flex-wrap:nowrap}
+#sim-prazos button{flex:1;padding:8px 4px;font-size:12.5px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -696,9 +699,13 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
           <select class="select" id="sim-ini">
             <option value="reserva">Reserva (renda fixa)</option>
             <option value="tudo">Reserva + ações</option>
+            <option value="valor">Montante que eu informar</option>
             <option value="zero">Começar do zero</option>
           </select>
           <span class="sub" id="sim-ini-v"></span></label>
+        <label class="sim-f" id="sim-mont-f" hidden><span class="eyebrow">Montante inicial (R$)</span>
+          <input class="input num" id="sim-mont" inputmode="decimal" autocomplete="off" placeholder="ex.: 10.000">
+          <span class="sub">valor aplicado hoje · deixe "Guardar por mês" em 0 para ver só o montante render</span></label>
         <label class="sim-f"><span class="eyebrow">Guardar por mês (R$)</span>
           <input class="input num" id="sim-aporte" inputmode="decimal" autocomplete="off">
           <span class="sim-chips" id="sim-chips"></span></label>
@@ -1198,7 +1205,7 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
   }
   function simPadrao(h){
     const c = DADOS.cdi||{};
-    return {ini:"reserva", aporte: Math.round(h.m12*100)/100, pcdi:100, cdi: c.taxa_dia!=null ? Math.round((Math.pow(1+c.taxa_dia/100,252)-1)*10000)/100 : 0, reaj:0, meta:"", meses:120};
+    return {ini:"reserva", montante:0, aporte: Math.round(h.m12*100)/100, pcdi:100, cdi: c.taxa_dia!=null ? Math.round((Math.pow(1+c.taxa_dia/100,252)-1)*10000)/100 : 0, reaj:0, meta:"", meses:120};
   }
   function simLer(h){
     let s = null; try{ s = JSON.parse(localStorage.getItem(SIMK)||"null"); }catch(e){}
@@ -1211,6 +1218,7 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
     const res = {bruto:+u.bruto_fim||0, liq:+u.saldo_fim||0, custo:+u.capital_fim||0};
     const acoes = +v.valor_fim||0;
     if(SIM.ini==="zero") return {bruto:0, custo:0, liq:0, txt:"R$ 0,00"};
+    if(SIM.ini==="valor"){ const v = Math.max(0, +SIM.montante||0); return {bruto:v, custo:v, liq:v, novo:true, txt: v ? `${brl(v)} aplicados hoje` : "Informe o montante abaixo"}; }
     if(SIM.ini==="tudo") return {bruto:res.bruto+acoes, custo:res.custo+acoes, liq:res.liq+acoes, txt:`${brl(res.liq+acoes)} hoje (reserva ${brl(res.liq)} + ações ${brl(acoes)}; ações simuladas rendendo como o CDI)`};
     return {bruto:res.bruto, custo:res.custo, liq:res.liq, txt:`${brl(res.liq)} líquido hoje (bruto ${brl(res.bruto)})`};
   }
@@ -1220,7 +1228,7 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
     const aa = (SIM.cdi||0)/100*(SIM.pcdi||0)/100, rm = Math.pow(1+aa, 1/12) - 1;
     const n = Math.max(1, Math.min(600, Math.round(SIM.meses||12)));
     const irDe = dias => dias<=180?.225:dias<=360?.20:dias<=720?.175:.15;
-    const lotes = []; if(p.bruto>0) lotes.push({v:p.bruto, c:p.custo, idade:12}); // idade inicial conservadora: a reserva atual tem lotes de 1 a 12 meses
+    const lotes = []; if(p.bruto>0) lotes.push({v:p.bruto, c:p.custo, idade:p.novo?0:12}); // idade inicial conservadora: a reserva atual tem lotes de 1 a 12 meses
     const [y0,m0] = hojeISO.slice(0,7).split("-").map(Number);
     const out = []; let aporte = SIM.aporte||0, totAp = 0;
     for(let i=1;i<=n;i++){
@@ -1263,11 +1271,12 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
     // ---- premissas ----
     const p = simPartida();
     $("sim-ini").value = SIM.ini; $("sim-ini-v").textContent = p.txt;
+    $("sim-mont-f").hidden = SIM.ini!=="valor";
     const set = (id,v,d=2) => { const el=$(id); if(document.activeElement!==el) el.value = (v===""||v==null) ? "" : fmtN(+v,d); };
-    set("sim-aporte", SIM.aporte); set("sim-pcdi", SIM.pcdi, 0); set("sim-cdi", SIM.cdi); set("sim-reaj", SIM.reaj, 1); set("sim-meta", SIM.meta===""?"":SIM.meta);
+    set("sim-aporte", SIM.aporte); set("sim-pcdi", SIM.pcdi, 0); set("sim-cdi", SIM.cdi); set("sim-reaj", SIM.reaj, 1); set("sim-meta", SIM.meta===""?"":SIM.meta); set("sim-mont", SIM.montante||"");
     const c = DADOS.cdi||{};
     $("sim-cdi-v").textContent = c.taxa_dia!=null ? `CDI oficial: ${fmtN(c.acum_12m*100,2)}% nos últimos 12 meses · hoje ${fmtN((Math.pow(1+c.taxa_dia/100,252)-1)*100,2)}% ao ano` : "";
-    $("sim-chips").innerHTML = [["12m",h.m12],["6m",h.m6],["3m",h.m3],["mediana",h.mediana]].map(([t,v])=>`<button type="button" class="chip" data-v="${v.toFixed(2)}" aria-pressed="${Math.abs((SIM.aporte||0)-v)<0.005}">${t} ${fmtN(v,0)}</button>`).join("");
+    $("sim-chips").innerHTML = [["sem aporte",0],["12m",h.m12],["6m",h.m6],["3m",h.m3],["mediana",h.mediana]].map(([t,v])=>`<button type="button" class="chip" data-v="${v.toFixed(2)}" aria-pressed="${Math.abs((SIM.aporte||0)-v)<0.005}">${t==="sem aporte"?t:t+" "+fmtN(v,0)}</button>`).join("");
     $("sim-chips").querySelectorAll("button").forEach(b=>b.onclick = ()=>{ SIM.aporte = +b.dataset.v; simSalvar(); renderSim(); });
     $("sim-meses").value = SIM.meses;
     $("sim-prazos").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed", +b.dataset.m===+SIM.meses));
@@ -1297,7 +1306,7 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
       const rend = (o.bruto - prevB) - ap; prevB = o.bruto;
       rows += `<tr><td>${o.k.endsWith("-12")?o.k.slice(0,4):mesAbrev(o.k)}</td><td class="r">${brl(ap)}</td><td class="r pos">${sbrl(rend)}</td><td class="r">${brl(o.bruto)}</td><td class="r">${brl(o.liq)}</td></tr>`; });
     $("sim-tab").innerHTML = `<thead><tr><th>Ano</th><th class="r">Guardado no ano</th><th class="r">Rendimento bruto no ano</th><th class="r">Saldo bruto no fim</th><th class="r">Líquido se resgatar</th></tr></thead><tbody>${rows}</tbody>`;
-    $("sim-cap").textContent = `Premissas: guardar ${brl(SIM.aporte)} por mês${SIM.reaj?` com aumento de ${fmtN(SIM.reaj,1)}% a cada ano`:""}, rendendo ${fmtN(SIM.pcdi,0)}% de um CDI constante de ${fmtN(SIM.cdi,2)}% ao ano (${fmtN((Math.pow(1+aa,1/12)-1)*100,3)}% ao mês). IR regressivo calculado para cada aporte pela sua idade no resgate (22,5% até 6 meses … 15% acima de 2 anos); o saldo de hoje entra como se tivesse 1 ano, o que é conservador. Valores nominais, sem descontar a inflação.`;
+    $("sim-cap").textContent = `Premissas: ${SIM.ini==="valor"?"montante inicial de "+brl(p.custo)+" aplicado hoje, ":""}guardar ${brl(SIM.aporte)} por mês${SIM.reaj?` com aumento de ${fmtN(SIM.reaj,1)}% a cada ano`:""}, rendendo ${fmtN(SIM.pcdi,0)}% de um CDI constante de ${fmtN(SIM.cdi,2)}% ao ano (${fmtN((Math.pow(1+aa,1/12)-1)*100,3)}% ao mês). IR regressivo calculado para cada aporte pela sua idade no resgate (22,5% até 6 meses … 15% acima de 2 anos); ${p.novo?"o montante informado conta como aplicado hoje.":"o saldo de hoje entra como se tivesse 1 ano, o que é conservador."} Valores nominais, sem descontar a inflação.`;
   }
   function simGrafico(out, p, meta){
     const box = $("sim-graf"), bwid = box.clientWidth||720, est = bwid<560;
@@ -1338,7 +1347,7 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
   }
   function simLigar(){
     const campo = (id,k,min,max) => $(id).addEventListener("change", e=>{ const v = numBR(e.target.value); if(e.target.value.trim()==="" && k==="meta"){ SIM.meta=""; } else if(!isNaN(v)){ SIM[k] = Math.max(min, Math.min(max, v)); } simSalvar(); renderSim(); });
-    campo("sim-aporte","aporte",-1e7,1e7); campo("sim-pcdi","pcdi",0,300); campo("sim-cdi","cdi",0,100); campo("sim-reaj","reaj",-50,100); campo("sim-meta","meta",0,1e10);
+    campo("sim-aporte","aporte",-1e7,1e7); campo("sim-pcdi","pcdi",0,300); campo("sim-cdi","cdi",0,100); campo("sim-reaj","reaj",-50,100); campo("sim-meta","meta",0,1e10); campo("sim-mont","montante",0,1e10);
     $("sim-ini").addEventListener("change", e=>{ SIM.ini = e.target.value; simSalvar(); renderSim(); });
     $("sim-meses").addEventListener("input", e=>{ SIM.meses = +e.target.value; simSalvar(); renderSim(); });
     $("sim-prazos").querySelectorAll("button").forEach(b=>b.addEventListener("click", ()=>{ SIM.meses = +b.dataset.m; simSalvar(); renderSim(); }));
