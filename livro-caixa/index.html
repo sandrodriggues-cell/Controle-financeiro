@@ -410,6 +410,13 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
 .tabs button[aria-selected="true"]{background:var(--soft-2)}
 .pop{background:var(--card);border:0}
 .kpis,.kpis-2,.kpis-3{padding-bottom:18px}
+
+/* ===== Balões na cor do fundo + barra que some ao rolar ===== */
+:root{--card:var(--bg)}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){--bg:#ffffff;--card:#ffffff} }
+:root[data-theme="light"]{--bg:#ffffff;--card:#ffffff}
+.tabs{transition:transform .28s ease, opacity .28s ease}
+.tabs.esconde{transform:translate(-50%, calc(100% + 30px));opacity:0;pointer-events:none}
 </style>
 </head>
 <body>
@@ -1785,6 +1792,12 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
   new MutationObserver(()=>{ $("sino-dot").hidden = $("aviso").hidden; }).observe($("aviso"), {attributes:true, attributeFilter:["hidden"]});
   function setView(v){ VIEW = v; render(); window.scrollTo({top:0}); }
   document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click", ()=>setView(b.dataset.v)));
+  // barra de baixo some ao rolar para baixo e volta ao rolar para cima
+  (function(){ let y0 = window.scrollY, tick = false; const nav = document.querySelector(".tabs");
+    window.addEventListener("scroll", ()=>{ if(tick) return; tick = true; requestAnimationFrame(()=>{
+      const y = window.scrollY, d = y - y0;
+      if(y < 40 || d < -6) nav.classList.remove("esconde"); else if(d > 6) nav.classList.add("esconde");
+      if(Math.abs(d) > 6) y0 = y; tick = false; }); }, {passive:true}); })();
   $("v-lanc").appendChild($("sec-lanc"));
   $("m-sim").addEventListener("click", ()=>setView("sim"));
   $("m-atu").addEventListener("click", ()=>carregar());
