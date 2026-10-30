@@ -417,6 +417,15 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
 :root[data-theme="light"]{--bg:#ffffff;--card:#ffffff}
 .tabs{transition:transform .28s ease, opacity .28s ease}
 .tabs.esconde{transform:translate(-50%, calc(100% + 30px));opacity:0;pointer-events:none}
+
+/* ===== Notificações dentro do sino ===== */
+.pop{max-height:min(70vh,520px);overflow-y:auto;width:min(330px,calc(100vw - 32px))}
+.pop .notice{box-shadow:none;background:var(--soft-2);padding:10px 12px;border-radius:12px;font-size:12.5px}
+.notif-list{display:flex;flex-direction:column;gap:8px}
+.notif{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.4}
+.notif p{margin:0 0 2px}
+.notif-dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--neg);margin-top:6px}
+.pop-sep{margin-top:6px;padding-top:10px;border-top:1px solid var(--hair)}
 </style>
 </head>
 <body>
@@ -440,7 +449,10 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
       <div class="hd-wrap">
         <button id="sino" class="ic-round" type="button" aria-label="Avisos e atualização" aria-expanded="false" aria-controls="pop-sino"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><i class="dot" id="sino-dot" hidden></i></button>
         <div class="pop" id="pop-sino" hidden>
-          <span class="eyebrow">Atualização</span>
+          <span class="eyebrow">Notificações</span>
+          <div id="aviso" hidden></div>
+          <div class="notif-list" id="notif-list"><p class="sub">Nenhuma notificação.</p></div>
+          <span class="eyebrow pop-sep">Atualização</span>
           <div class="sync" id="sync">Conectando ao banco de dados…</div>
           <button id="atualizar" class="btn btn-ic" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg><span>Atualizar agora</span></button>
         </div>
@@ -460,7 +472,6 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
     <label class="mes-c"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M8 14h.01M12 14h.01M16 14h.01M8 17.5h.01M12 17.5h.01"/></svg><span id="mes-txt">—</span><select id="mes" class="mes-sel" aria-label="Mês de referência"></select></label>
     <button id="mes-prox" class="mes-arr" type="button" aria-label="Próximo mês"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   </div>
-  <div id="aviso" hidden></div>
 
   <nav class="tabs" role="tablist" aria-label="Visões">
     <button type="button" role="tab" id="t-geral" data-v="geral" aria-selected="true" aria-label="Visão geral"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5V18a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1v-3M4 7.5A2 2 0 0 1 6 5.5h11v2M4 7.5h15a1 1 0 0 1 1 1V11"/><path d="M20 11h-4a2.5 2.5 0 0 0 0 5h4z"/></svg><span>Visão geral</span></button>
@@ -764,7 +775,7 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
   const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const hojeISO = (()=>{ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); })();
 
-  let MESES_LISTA = [], DADOS = null, MES = null, REGIME = "caixa", VIEW = "geral", CMES = null;
+  let NOTIF_N = 0, MESES_LISTA = [], DADOS = null, MES = null, REGIME = "caixa", VIEW = "geral", CMES = null;
   try{ if(location.hash==="#cartoes") VIEW = "cartoes"; if(location.hash==="#simulador") VIEW = "sim"; if(location.hash==="#investimentos") VIEW = "inv"; }catch(e){}
   
 
@@ -914,9 +925,12 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
     $("sync").textContent = s ? `Última atualização: ${dataHora(s.executada_em)} · ${nome[s.origem]||s.origem}` : "Nenhuma sincronização registrada";
 
     const pend = DADOS.pendentes || [];
-    if(pend.length && $("aviso").hidden){
-      aviso(`<strong>${pend.length} notificaç${pend.length>1?"ões":"ão"} não lida${pend.length>1?"s":""} automaticamente</strong> e fora dos totais: ${pend.slice(0,3).map(p=>"“"+esc(p.texto)+"”").join("; ")}. Peça ao Claude: “atualiza o painel”.`,"warn");
-    }
+    NOTIF_N = pend.length;
+    $("notif-list").innerHTML = pend.length
+      ? pend.map(p=>`<div class="notif"><span class="notif-dot"></span><div><p>${esc(p.texto)}</p>${p.recebida_em||p.created_at?`<span class="sub">${dataHora(p.recebida_em||p.created_at)}</span>`:""}</div></div>`).join("")
+        + `<p class="sub">Ainda fora dos totais. Peça ao Claude: “atualiza o painel”.</p>`
+      : '<p class="sub">Nenhuma notificação.</p>';
+    atualizaSino();
   }
 
   function saldoInfo(){
@@ -1789,7 +1803,8 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
   pops.forEach(([,p])=>$(p).addEventListener("click", e=>e.stopPropagation()));
   document.addEventListener("click", ()=>fechaPops());
   document.addEventListener("keydown", e=>{ if(e.key==="Escape") fechaPops(); });
-  new MutationObserver(()=>{ $("sino-dot").hidden = $("aviso").hidden; }).observe($("aviso"), {attributes:true, attributeFilter:["hidden"]});
+  function atualizaSino(){ const n = NOTIF_N + ($("aviso").hidden?0:1); $("sino-dot").hidden = !n; $("sino").setAttribute("aria-label", n ? `Notificações (${n})` : "Notificações e atualização"); }
+  new MutationObserver(atualizaSino).observe($("aviso"), {attributes:true, attributeFilter:["hidden"]});
   function setView(v){ VIEW = v; render(); window.scrollTo({top:0}); }
   document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click", ()=>setView(b.dataset.v)));
   // barra de baixo some ao rolar para baixo e volta ao rolar para cima
