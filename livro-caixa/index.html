@@ -628,6 +628,11 @@ section.panel:has(#fech){display:none!important}
   .bg-row{grid-template-columns:46px minmax(0,1fr);gap:16px;align-items:start}
   .bg-ic{width:46px;height:46px}
 }
+
+/* Saudação no lugar do logo */
+.saud{display:flex;flex-direction:column;gap:2px;margin:0;line-height:1.15}
+.saud #saud-t{font-size:15px;font-weight:400;color:var(--muted)}
+.saud b{font-size:21px;font-weight:700;letter-spacing:-.01em;color:var(--fg)}
 </style>
 </head>
 <body>
@@ -645,7 +650,7 @@ section.panel:has(#fech){display:none!important}
 
 <div class="wrap">
   <header class="top">
-    <div class="brand"><h1 class="pg-tit" id="pg-tit" hidden></h1><h1 id="pg-logo"><span class="logo" aria-label="kaixa">kai<svg class="logo-x" viewBox="0 0 24 24" aria-hidden="true"><path class="lx-up" d="M5 19 19 5M11 5h8v8"/><path class="lx-dn" d="M5 5l5.2 5.2M13.8 13.8 19 19"/></svg>a</span></h1></div>
+    <div class="brand"><h1 class="pg-tit" id="pg-tit" hidden></h1><h1 id="pg-logo" class="saud"><span id="saud-t">Bom dia,</span><b>Sandro Rodrigues</b></h1></div>
     <div class="hd-acts">
       <button id="olho" class="ic-round" type="button" aria-label="Ocultar valores" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="eye-on"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></g><g class="eye-off"><path d="M10.6 5.6A9.6 9.6 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a16 16 0 0 1-2.7 3.4M6.6 6.6C3.9 8.3 2.5 12 2.5 12s3.5 6.5 9.5 6.5a9 9 0 0 0 5.4-1.8M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/></g></svg></button>
       <div class="hd-wrap">
@@ -1092,6 +1097,7 @@ section.panel:has(#fech){display:none!important}
     if(VIEW==="inv"){ renderInvestimentos(); renderCarteira("carteira-i"); }
     $("mes-row").hidden = !["geral","lanc","ins"].includes(VIEW); $("ext-wrap").hidden = VIEW!=="lanc";
     const TIT = {lanc:"Seu <b>extrato</b>", ins:"Seus <b>insights</b>", cartoes:"Seus <b>cartões</b>", inv:"Seus <b>investimentos</b>", sim:"<b>Simulador</b>", mais:"<b>Mais</b> opções"};
+    { const h = new Date().getHours(); $("saud-t").textContent = (h<5||h>=18?"Boa noite,":h<12?"Bom dia,":"Boa tarde,"); }
     $("pg-tit").innerHTML = TIT[VIEW]||""; $("pg-tit").hidden = !TIT[VIEW]; $("pg-logo").hidden = !!TIT[VIEW];
     renderCartoes();
     renderFaturas();
