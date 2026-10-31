@@ -527,6 +527,49 @@ body.sheet-on .tabs{display:none}
 .mov-l{font-size:12px} .mov-x{font-size:11px}
 .dia-tot{padding:12px 16px 14px;font-size:14px} .dia-tot b{font-size:14px}
 @media (max-width:380px){ .top .pg-tit{font-size:21px} .ext-mais{width:46px;height:46px} }
+
+/* ===== Visão geral estilo app (indicadores, agenda, contas, cartões, metas) ===== */
+.bg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.bg-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.bg-sec{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px 20px 8px;min-width:0;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.bg-h{font-family:var(--f-body);font-weight:400;font-size:19px;margin:0 0 6px}
+.bg-h b{font-weight:700}
+.bg-hrow{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.bg-add{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);font-size:24px;line-height:1;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.bg-list{display:flex;flex-direction:column}
+.bg-row{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.bg-row:last-child{border-bottom:0}
+.bg-row.clic{cursor:pointer}
+.bg-ic{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none}
+.bg-ic svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bg-ic.escuro{background:#1f2633;border:1px solid var(--line)} .bg-ic.amarelo{background:#f2b705;color:#1b1b1b} .bg-ic.verde{background:#3fb68f} .bg-ic.vermelho{background:#e2556a} .bg-ic.azul{background:#25b6ef} .bg-ic.roxo{background:#8e6ad8} .bg-ic.cinza{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.bg-ic.logo{background:#ec7000;color:#fff;font-weight:800;font-size:13px;letter-spacing:-.02em;font-family:var(--f-body)}
+.bg-ic.logo.azul-esc{background:#0b2a6b}
+.bg-t{font-weight:600;font-size:15px}
+.bg-v{font-family:var(--f-body);font-weight:700;font-size:22px;letter-spacing:-.01em;margin-top:2px}
+.bg-v.pos{color:#3fb68f} .bg-v.neg{color:#e2556a} .bg-v.azul{color:#25b6ef} .bg-v.cinza{color:var(--muted)}
+.bg-s{font-size:13px;color:var(--muted);margin-top:2px}
+.bg-tot{display:flex;justify-content:space-between;align-items:center;padding:16px 0 12px;border-top:1px solid var(--line);font-weight:600}
+.bg-tot b{font-family:var(--f-body);font-weight:700}
+.bg-bar{height:8px;border-radius:5px;background:var(--surface-2);overflow:hidden;margin-top:8px}
+.bg-bar span{display:block;height:100%;background:#3fb68f;border-radius:5px}
+.bg-vazio{padding:16px 0 18px;color:var(--muted);font-size:14px}
+.bg-sub-h{font-size:18px;margin:10px 0 0}
+.oculto .bg-v,.oculto .bg-tot b,.oculto .bg-s{filter:blur(9px);user-select:none}
+.meta-dlg{border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--fg);padding:0;width:min(440px,calc(100vw - 32px))}
+.meta-dlg::backdrop{background:rgba(0,0,0,.55)}
+.meta-form{display:flex;flex-direction:column;gap:14px;padding:22px}
+.meta-form h2{margin:0}
+.meta-form .input,.meta-form .select{width:100%;font-size:16px}
+.meta-acoes{display:flex;gap:10px;align-items:center}
+.meta-acoes span{flex:1}
+@media (max-width:820px){
+  .bg-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+  .bg-col{gap:14px}
+  .bg-sec{border-radius:20px;padding:18px 16px 6px}
+  .bg-row{grid-template-columns:48px minmax(0,1fr) auto;gap:12px}
+  .bg-ic{width:48px;height:48px}
+}
 </style>
 </head>
 <body>
@@ -602,7 +645,17 @@ body.sheet-on .tabs{display:none}
   <p class="regime-def" id="regime-def"></p>
 
   <div id="v-mes" class="vstack">
-  <section class="hero" aria-label="Saldo livre do mês">
+  <div class="bg-grid">
+    <section class="bg-sec" aria-label="Seus indicadores"><h2 class="bg-h">Seus <b>indicadores</b></h2><div class="bg-list" id="bg-ind"></div></section>
+    <div class="bg-col">
+      <section class="bg-sec" aria-label="Sua agenda"><h2 class="bg-h">Sua <b>agenda</b></h2><div class="bg-list" id="bg-agenda"></div></section>
+      <section class="bg-sec" aria-label="Suas contas"><h2 class="bg-h">Suas <b>contas</b></h2><div class="bg-list" id="bg-contas"></div></section>
+    </div>
+    <section class="bg-sec" aria-label="Seus cartões"><h2 class="bg-h">Seus <b>cartões</b></h2><div class="bg-list" id="bg-cartoes"></div></section>
+    <section class="bg-sec" aria-label="Suas metas"><div class="bg-hrow"><h2 class="bg-h">Suas <b>metas</b></h2><button type="button" class="bg-add" id="meta-add" aria-label="Nova meta">+</button></div><div class="bg-list" id="bg-metas"></div></section>
+  </div>
+  <h2 class="bg-sub-h">Análise do mês</h2>
+  <section class="hero" hidden aria-label="Saldo livre do mês">
     <div class="kpi"><span class="eyebrow" id="k-livre-l">Saldo livre do mês</span><span class="v num" id="k-livre">—</span><span class="s" id="k-livre-s"></span></div>
   </section>
   <section class="kpis kpis-3" aria-label="Indicadores principais">
@@ -867,6 +920,25 @@ body.sheet-on .tabs{display:none}
     <button type="button" class="ic-round sheet-ok" id="filt-ok" aria-label="Aplicar filtros"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
   </div>
 
+  <dialog class="meta-dlg" id="meta-dlg">
+    <form method="dialog" id="meta-form" class="meta-form">
+      <h2 id="meta-tit">Nova meta</h2>
+      <label class="sim-f"><span class="eyebrow">Nome</span><input class="input" id="mt-nome" maxlength="60" required placeholder="ex.: Reserva de emergência"></label>
+      <label class="sim-f"><span class="eyebrow">Valor da meta (R$)</span><input class="input num" id="mt-alvo" inputmode="decimal" required placeholder="ex.: 28.000"></label>
+      <label class="sim-f"><span class="eyebrow">Prazo (opcional)</span><input class="input" id="mt-prazo" type="month"></label>
+      <label class="sim-f"><span class="eyebrow">Acompanhar pelo</span>
+        <select class="select" id="mt-fonte">
+          <option value="reserva">Saldo da reserva (CDI) — automático</option>
+          <option value="investimentos">Saldo das ações — automático</option>
+          <option value="patrimonio">Conta + reserva + ações — automático</option>
+          <option value="manual">Valor que eu informar</option>
+        </select></label>
+      <label class="sim-f" id="mt-man-l"><span class="eyebrow">Quanto já tem (R$)</span><input class="input num" id="mt-man" inputmode="decimal" placeholder="0,00"></label>
+      <div class="login-msg" id="mt-msg"></div>
+      <div class="meta-acoes"><button type="button" class="btn-link" id="mt-excluir" hidden>Excluir meta</button><span></span><button type="button" class="btn" id="mt-cancelar" style="background:transparent;border-color:var(--line);color:var(--muted)">Cancelar</button><button type="submit" class="btn" id="mt-salvar">Salvar</button></div>
+    </form>
+  </dialog>
+
   <footer class="foot"><details><summary>Notas e metodologia</summary>
     <span>Fonte: banco de dados "financeiro" no Supabase, alimentado pelo Banco MCP (Open Finance Itaú) e pelas notificações do celular. Sincronização diária automática; peça "atualiza o painel" ao Claude para sincronizar na hora.</span>
     <span>Fluxo de caixa: só o que entrou e saiu da conta corrente; a fatura do cartão conta no dia em que é paga. Transferências não entram nas entradas e saídas: Pix entre contas próprias, aplicações e resgates da reserva (CDB) e investimentos. A aplicação automática do Itaú é movimento interno e não altera o saldo em conta.</span>
@@ -1002,6 +1074,7 @@ body.sheet-on .tabs{display:none}
     $("regime-def").innerHTML = "<strong>Fluxo de caixa</strong> · o que entrou e saiu da conta corrente em "+mesLabel(MES)+". A fatura do cartão conta no dia em que é paga; o que ainda vence no mês aparece como previsto.";
 
     renderKpis(tx, rows, ent, sai, res, prev, prevTot, prevParcial, atual);
+    renderResumo(tx, rows, ent, sai, res, prev, prevTot, atual);
     renderCategorias(rows);
     renderFluxo(tx, rows, prev, atual);
     renderCarteira("carteira");
@@ -1460,6 +1533,92 @@ body.sheet-on .tabs{display:none}
     $("sim-prazos").querySelectorAll("button").forEach(b=>b.addEventListener("click", ()=>{ SIM.meses = +b.dataset.m; simSalvar(); renderSim(); }));
     $("sim-reset").addEventListener("click", ()=>{ SIM = simPadrao(simHist()); simSalvar(); renderSim(); });
   }
+
+
+  // ---------- Visão geral estilo app ----------
+  const IC = {"carteira": "<svg viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"6\" width=\"18\" height=\"13\" rx=\"3\"/><path d=\"M16 12.5h2M3 9h15a3 3 0 0 0-3-3H6\"/></svg>", "brilho": "<svg viewBox=\"0 0 24 24\"><rect x=\"4\" y=\"5\" width=\"13\" height=\"14\" rx=\"3\"/><path d=\"M19 2.5v4M17 4.5h4M10.5 9.5l1 2 2 1-2 1-1 2-1-2-2-1 2-1z\"/></svg>", "sobe": "<svg viewBox=\"0 0 24 24\"><path d=\"M7 17 17 7M9 7h8v8\"/></svg>", "desce": "<svg viewBox=\"0 0 24 24\"><path d=\"M7 7l10 10M17 9v8H9\"/></svg>", "balanca": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 4v16M7 20h10M5 7h14M5 7l-2.5 6a2.5 2.5 0 0 0 5 0zM19 7l-2.5 6a2.5 2.5 0 0 0 5 0z\"/></svg>", "ok": "<svg viewBox=\"0 0 24 24\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/></svg>", "cofre": "<svg viewBox=\"0 0 24 24\"><rect x=\"3.5\" y=\"5\" width=\"17\" height=\"14\" rx=\"2.5\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 9v-1M7 19v1.5M17 19v1.5\"/></svg>", "alvo": "<svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"8\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/><circle cx=\"12\" cy=\"12\" r=\".8\"/></svg>"};
+  const linhaBg = (ic, cor, t, v, vcls, sub, extra="", attrs="") => `<div class="bg-row${attrs?" clic":""}" ${attrs}><span class="bg-ic ${cor}">${ic}</span><div><div class="bg-t">${t}</div><div class="bg-v ${vcls}">${v}</div>${sub?`<div class="bg-s">${sub}</div>`:""}${extra}</div><span></span></div>`;
+  const brlS = v => (v<0?"-":"")+brl(Math.abs(v));
+  function metaAtual(m){
+    const inv = DADOS.investimentos||[], si = saldoInfo();
+    const res = inv.filter(i=>i.classe==="reserva").reduce((a,i)=>a+(+i.saldo),0), acoes = inv.filter(i=>i.classe==="investimento").reduce((a,i)=>a+(+i.saldo),0);
+    return m.fonte==="reserva" ? res : m.fonte==="investimentos" ? acoes : m.fonte==="patrimonio" ? res+acoes+si.saldo : (+m.valor_manual||0);
+  }
+  function mesesAte(prazo){ if(!prazo) return null; const [y,m]=hojeISO.slice(0,7).split("-").map(Number), [py,pm]=prazo.slice(0,7).split("-").map(Number); return (py-y)*12+(pm-m); }
+  function renderResumo(tx, rows, ent, sai, res, prev, prevTot, atual){
+    const si = saldoInfo(), f = fechDe(MES), corrente = MES===atual;
+    const saldo = corrente || MES>atual ? si.saldo : (f ? +f.saldo_fim : null);
+    let aPagar = prevTot;
+    if(MES > atual){ let k=atual; aPagar=0; while(k<=MES){ aPagar += previstos(k).reduce((a,p)=>a+p.valor,0); k = mesAnt(k,-1); } }
+    const proj = saldo==null ? null : (MES < atual ? saldo : saldo - aPagar);
+    // Seus indicadores
+    $("bg-ind").innerHTML =
+      linhaBg(IC.carteira,"escuro", MES<atual?"Saldo no fim do mês":"Saldo atual", saldo==null?"—":brlS(saldo), saldo<0?"neg":"pos", MES<atual?"O saldo que ficou na conta":"O saldo que você tem"+(si.upd?" · Itaú "+dataHora(si.upd):""))
+    + linhaBg(IC.brilho,"amarelo","Saldo projetado", proj==null?"—":brlS(proj), proj<0?"neg":"pos", MES<atual?"Mês fechado":aPagar?`O saldo que você terá · depois de pagar ${brl(aPagar)}`:"O saldo que você terá · nada a vencer no mês")
+    + linhaBg(IC.sobe,"verde","Receitas", brl(ent),"pos","O que você ganhou")
+    + linhaBg(IC.desce,"vermelho","Despesas", brlS(-sai),"neg","O que você gastou")
+    + linhaBg(IC.balanca,"azul","Balanço mensal", brlS(res), res<0?"neg":"azul","Receitas menos despesas");
+    // Sua agenda
+    const prox = (DADOS.faturas||[]).filter(x=>!x.pago_em && x.vencimento.slice(0,7)>MES && !(x.status!=="aberta" && x.valor_oficial!=null && +x.valor_oficial===0)).sort((a,b)=>a.vencimento.localeCompare(b.vencimento));
+    const proxMes = prox.length ? prox[0].vencimento.slice(0,7) : null, proxF = prox.filter(x=>x.vencimento.startsWith(proxMes||"x"));
+    const proxTot = proxF.reduce((a,x)=>a+(x.valor_oficial!=null?+x.valor_oficial:+x.soma_itens),0);
+    const apl = tx.filter(t=>t.conta_tipo!=="cartao" && t.data.startsWith(MES) && (t.categoria==="Reserva" || t.categoria==="Investimentos")).reduce((a,t)=>a+(t.tipo==="saida"?t.valor:-t.valor),0);
+    const nP = prev.length;
+    $("bg-agenda").innerHTML =
+      (nP ? linhaBg(IC.desce,"vermelho", `${String(nP).padStart(2,"0")} despesa${nP>1?"s":""} para pagar.`, brl(prevTot),"neg", prev.map(x=>x.descricao.replace("Fatura ","")).join(" · "))
+          : linhaBg(IC.ok,"verde","Nenhuma despesa para pagar no mês.", "R$ 0,00","pos", MES<atual?"Mês fechado":"Faturas do mês já pagas"))
+    + (proxF.length ? linhaBg(IC.desce,"cinza", `Próximo mês: ${String(proxF.length).padStart(2,"0")} fatura${proxF.length>1?"s":""}`, brl(proxTot),"cinza", proxF.map(x=>`${x.conta.replace(/^Itaú\s*/,"").split(" ")[0]} vence ${dataBR(x.vencimento)}${x.status==="aberta"?" (aberta)":""}`).join(" · ")) : "")
+    + linhaBg(IC.cofre, apl>0?"azul":"cinza", apl>0?"Guardado na reserva/investimentos":apl<0?"Resgatado da reserva":"Nada guardado na reserva no mês", brl(Math.abs(apl)), apl>0?"azul":"cinza", apl>0?"Não reduz o balanço do mês":"");
+    // Suas contas
+    const corr = (DADOS.contas||[]).filter(c=>c.tipo!=="cartao");
+    $("bg-contas").innerHTML = corr.map(c=>linhaBg("itaú","logo","Itaú", brlS(si.saldo), si.saldo<0?"neg":"pos", `Conta corrente · Open Finance${si.qtdN?` · inclui ${si.qtdN} notificação`:""}`)).join("")
+      + `<div class="bg-tot"><span>Total</span><b class="num">${brl(si.saldo)}</b></div>`;
+    // Seus cartões
+    const cards = (DADOS.contas||[]).filter(c=>c.tipo==="cartao");
+    let totCart = 0;
+    $("bg-cartoes").innerHTML = cards.map(c=>{
+      const fs = (DADOS.faturas||[]).filter(x=>x.conta===c.nome && !x.pago_em && !(x.status!=="aberta" && x.valor_oficial!=null && +x.valor_oficial===0)).sort((a,b)=>a.vencimento.localeCompare(b.vencimento));
+      const ab = fs[0], v = ab ? (ab.valor_oficial!=null && ab.status!=="aberta" ? +ab.valor_oficial : +ab.soma_itens) : 0;
+      totCart += v;
+      const lim = c.limite!=null ? ` · limite disponível ${brl(+c.limite_disponivel)} de ${brl(+c.limite)}` : "";
+      const nome = c.nome.replace(/^Itaú\s*/i,"Itaú ").replace(/\s+/g," ");
+      return linhaBg("itaú","logo azul-esc", esc(nome)+` <span class="sub">final ${esc(c.numero||"")}</span>`, brl(v), v>0?"neg":"pos", ab ? `Fatura ${ab.status==="aberta"?"aberta":"fechada"} · vence ${dataBR(ab.vencimento)}${lim}` : "Fatura zerada"+lim, "", `data-cartao="${esc(c.nome)}"`);
+    }).join("") + `<div class="bg-tot"><span>Total</span><b class="num">${brl(totCart)}</b></div>`;
+    $("bg-cartoes").querySelectorAll("[data-cartao]").forEach(el=>el.onclick=()=>{ $("c-cartao").value = el.dataset.cartao; CMES=null; setView("cartoes"); });
+    // Suas metas
+    const metas = DADOS.metas||[];
+    $("bg-metas").innerHTML = metas.length ? metas.map(m=>{
+      const at = metaAtual(m), alvo = +m.valor_alvo, pc = Math.max(0, Math.min(100, at/alvo*100)), falta = Math.max(0, alvo-at), mm = mesesAte(m.prazo);
+      const ritmo = falta<=0 ? "Meta atingida!" : mm!=null && mm>0 ? `Faltam ${brl(falta)} · ${brl(falta/mm)}/mês até ${mesAbrev(m.prazo.slice(0,7))}` : mm!=null ? `Faltam ${brl(falta)} · prazo vencido` : `Faltam ${brl(falta)}`;
+      return linhaBg(IC.alvo, pc>=100?"verde":"roxo", esc(m.nome), `${brl(at)} <span class="bg-s" style="font-weight:400">de ${brl(alvo)}</span>`, "pos", ritmo, `<div class="bg-bar"><span style="width:${pc.toFixed(1)}%"></span></div>`, `data-meta="${esc(m.id)}"`);
+    }).join("") : `<div class="bg-vazio">Nenhuma meta ainda. Toque em <b>+</b> para criar, por exemplo a reserva de emergência.</div>`;
+    $("bg-metas").querySelectorAll("[data-meta]").forEach(el=>el.onclick=()=>abrirMeta(metas.find(m=>m.id===el.dataset.meta)));
+  }
+  // Formulário de metas
+  let META_ED = null;
+  function abrirMeta(m){
+    META_ED = m || null;
+    $("meta-tit").textContent = m ? "Editar meta" : "Nova meta";
+    $("mt-nome").value = m ? m.nome : ""; $("mt-alvo").value = m ? (+m.valor_alvo).toLocaleString("pt-BR",{minimumFractionDigits:2}) : "";
+    $("mt-prazo").value = m && m.prazo ? m.prazo.slice(0,7) : ""; $("mt-fonte").value = m ? m.fonte : "reserva";
+    $("mt-man").value = m && m.fonte==="manual" ? (+m.valor_manual).toLocaleString("pt-BR",{minimumFractionDigits:2}) : "";
+    $("mt-man-l").hidden = $("mt-fonte").value!=="manual"; $("mt-excluir").hidden = !m; $("mt-msg").textContent = "";
+    const d = $("meta-dlg"); if(d.showModal) d.showModal(); else d.setAttribute("open","");
+  }
+  function fecharMeta(){ const d=$("meta-dlg"); if(d.close) d.close(); else d.removeAttribute("open"); }
+  async function enviarMeta(excluir){
+    const num = v => { v=String(v||"").trim().replace(/[R$\s]/g,""); if(v.includes(",")) v=v.replace(/\./g,"").replace(",","."); else if(/^\d{1,3}(\.\d{3})+$/.test(v)) v=v.replace(/\./g,""); return parseFloat(v); };
+    const par = {p_id: META_ED ? META_ED.id : null, p_nome: $("mt-nome").value.trim(), p_alvo: num($("mt-alvo").value), p_prazo: $("mt-prazo").value ? $("mt-prazo").value+"-01" : null, p_fonte: $("mt-fonte").value, p_valor_manual: num($("mt-man").value)||0, p_excluir: !!excluir};
+    if(!excluir && (!par.p_nome || !(par.p_alvo>0))){ $("mt-msg").textContent = "Informe o nome e o valor da meta."; $("mt-msg").classList.add("err"); return; }
+    $("mt-msg").classList.remove("err"); $("mt-msg").textContent = "Salvando…";
+    try{ await salvarMeta(par); fecharMeta(); await carregar(); }
+    catch(e){ $("mt-msg").classList.add("err"); $("mt-msg").textContent = "Não foi possível salvar: "+String((e&&e.message)||e).slice(0,160); }
+  }
+  $("meta-add").addEventListener("click", ()=>abrirMeta(null));
+  $("mt-fonte").addEventListener("change", ()=>{ $("mt-man-l").hidden = $("mt-fonte").value!=="manual"; });
+  $("mt-cancelar").addEventListener("click", fecharMeta);
+  $("mt-excluir").addEventListener("click", ()=>{ if(confirm("Excluir esta meta?")) enviarMeta(true); });
+  $("meta-form").addEventListener("submit", e=>{ e.preventDefault(); enviarMeta(false); });
 
   // Período consolidado escolhido: últimos 12 meses, um ano civil ou todo o período
   function periodo(atual){
@@ -2110,6 +2269,7 @@ body.sheet-on .tabs{display:none}
     }finally{ carregando = false; b.disabled = false; b.classList.remove("girando"); }
   }
   $("atualizar").addEventListener("click", carregar);
+  async function salvarMeta(par){ const {error} = await sb.rpc("meta_salvar", par); if(error) throw error; }
   const lg = $("login"), lgMsg = (t,err) => { $("lg-msg").textContent = t||""; $("lg-msg").classList.toggle("err", !!err); };
   const traduz = m => /Invalid login/i.test(m) ? "E-mail ou senha incorretos." : /Email not confirmed/i.test(m) ? "Confirme o cadastro pelo link enviado ao seu e-mail." : /already registered/i.test(m) ? "Esse e-mail já tem acesso. Use Entrar." : /Password should/i.test(m) ? "A senha precisa ter pelo menos 8 caracteres." : /rate limit/i.test(m) ? "Muitas tentativas. Aguarde alguns minutos." : m;
   $("login-form").addEventListener("submit", async e=>{
