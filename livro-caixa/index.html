@@ -633,6 +633,9 @@ section.panel:has(#fech){display:none!important}
 .saud{display:flex;flex-direction:column;gap:2px;margin:0;line-height:1.15}
 .saud #saud-t{font-size:13px;font-weight:400;color:var(--muted)}
 .saud b{font-size:17px;font-weight:600;letter-spacing:-.01em;color:var(--fg)}
+
+/* Sino e perfil só na aba Mais; o olho fica no canto nas outras */
+.hd-acts .hd-wrap[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -1098,6 +1101,7 @@ section.panel:has(#fech){display:none!important}
     $("mes-row").hidden = !["geral","lanc","ins"].includes(VIEW); $("ext-wrap").hidden = VIEW!=="lanc";
     const TIT = {lanc:"Seu <b>extrato</b>", ins:"Seus <b>insights</b>", cartoes:"Seus <b>cartões</b>", inv:"Seus <b>investimentos</b>", sim:"<b>Simulador</b>", mais:"<b>Mais</b> opções"};
     { const h = new Date().getHours(); $("saud-t").textContent = (h<5||h>=18?"Boa noite,":h<12?"Bom dia,":"Boa tarde,"); }
+    document.querySelectorAll(".hd-acts .hd-wrap").forEach(w=>{ w.hidden = VIEW!=="mais"; if(w.hidden) w.querySelectorAll(".pop").forEach(x=>x.hidden=true); });
     $("pg-tit").innerHTML = TIT[VIEW]||""; $("pg-tit").hidden = !TIT[VIEW]; $("pg-logo").hidden = !!TIT[VIEW];
     renderCartoes();
     renderFaturas();
