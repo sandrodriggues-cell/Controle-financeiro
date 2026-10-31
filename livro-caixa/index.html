@@ -605,6 +605,8 @@ body.sheet-on .tabs{display:none}
 
 /* Fechamento mensal oculto */
 section.panel:has(#fech){display:none!important}
+
+.notif-limpar{align-self:flex-start;margin-top:4px;font-size:13px;padding:8px 14px}
 </style>
 </head>
 <body>
@@ -1154,9 +1156,10 @@ section.panel:has(#fech){display:none!important}
     NOTIF_N = pend.length;
     $("notif-list").innerHTML = pend.length
       ? pend.map(p=>`<div class="notif"><span class="notif-dot"></span><div><p>${esc(p.texto)}</p>${p.recebida_em||p.created_at?`<span class="sub">${dataHora(p.recebida_em||p.created_at)}</span>`:""}</div></div>`).join("")
-        + `<p class="sub">Ainda fora dos totais. Peça ao Claude: “atualiza o painel”.</p>`
+        + `<button type="button" class="btn notif-limpar" id="notif-limpar">Limpar notificações</button>`
       : '<p class="sub">Nenhuma notificação.</p>';
     atualizaSino();
+    const bl = $("notif-limpar"); if(bl) bl.onclick = limparNotif;
   }
 
   function saldoInfo(){
@@ -1582,11 +1585,17 @@ section.panel:has(#fech){display:none!important}
     return m.fonte==="reserva" ? res : m.fonte==="investimentos" ? acoes : m.fonte==="patrimonio" ? res+acoes+si.saldo : (+m.valor_manual||0);
   }
   function mesesAte(prazo){ if(!prazo) return null; const [y,m]=hojeISO.slice(0,7).split("-").map(Number), [py,pm]=prazo.slice(0,7).split("-").map(Number); return (py-y)*12+(pm-m); }
+  // boletos do DDA (aviso do Itaú) ainda sem pagamento na conta, no mês do vencimento
+  function boletosDDA(mes){
+    return (DADOS.boletos||[]).filter(b=>!b.pago_em && String(b.vencimento).startsWith(mes)).map((b,i)=>({id:"bol-"+b.vencimento+"-"+i, data:b.vencimento, valor:+b.valor, tipo:"saida", boleto:true,
+      descricao:b.emissor, categoria:"Boleto", conta:"Conta Corrente Itaú"}));
+  }
   function renderResumo(tx, rows, ent, sai, res, prev, prevTot, atual){
     const si = saldoInfo(), f = fechDe(MES), corrente = MES===atual;
     const saldo = corrente || MES>atual ? si.saldo : (f ? +f.saldo_fim : null);
-    let aPagar = prevTot;
-    if(MES > atual){ let k=atual; aPagar=0; while(k<=MES){ aPagar += previstos(k).reduce((a,p)=>a+p.valor,0); k = mesAnt(k,-1); } }
+    const bolM = boletosDDA(MES), bolTot = bolM.reduce((a,b)=>a+b.valor,0);
+    let aPagar = prevTot + bolTot;
+    if(MES > atual){ let k=atual; aPagar=0; while(k<=MES){ aPagar += previstos(k).concat(boletosDDA(k)).reduce((a,p)=>a+p.valor,0); k = mesAnt(k,-1); } }
     const proj = saldo==null ? null : (MES < atual ? saldo : saldo - aPagar);
     // Seus indicadores
     $("bg-ind").innerHTML =
@@ -1600,10 +1609,10 @@ section.panel:has(#fech){display:none!important}
     const proxMes = prox.length ? prox[0].vencimento.slice(0,7) : null, proxF = prox.filter(x=>x.vencimento.startsWith(proxMes||"x"));
     const proxTot = proxF.reduce((a,x)=>a+(x.valor_oficial!=null?+x.valor_oficial:+x.soma_itens),0);
     const apl = tx.filter(t=>t.conta_tipo!=="cartao" && t.data.startsWith(MES) && (t.categoria==="Reserva" || t.categoria==="Investimentos")).reduce((a,t)=>a+(t.tipo==="saida"?t.valor:-t.valor),0);
-    const nP = prev.length;
+    const nP = prev.length + bolM.length;
     const dois = n => String(n).padStart(2,"0");
     $("bg-agenda").innerHTML =
-      linhaBg(IC.desce,"vermelho", `${dois(nP)} despesa${nP===1?"":"s"} para pagar.`, brl(prevTot),"neg","")
+      linhaBg(IC.desce,"vermelho", `${dois(nP)} despesa${nP===1?"":"s"} para pagar.`, brl(prevTot+bolTot),"neg","")
     + linhaBg(IC.sobe,"verde", `00 receitas para receber.`, brl(0),"pos","")
     + linhaBg(IC.ok,"azul","Não há nada para transferir", brl(0),"azul","");
     // Suas contas
@@ -2107,15 +2116,7 @@ section.panel:has(#fech){display:none!important}
     return d.toLowerCase().replace(/(^|[\s\/\-.(])([a-zà-ú])/g,(m,a,b)=>a+b.toUpperCase()).replace(/\b(Pix|Ted|Doc|Ltda|Sa|Me|Cdb|Iof|Ipva|Iptu)\b/g,w=>w==="Ltda"?"Ltda":w.toUpperCase()); };
   const DIAS_SEM = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
   // boletos avisados pelo banco (notificação ainda não processada): entram como "falta pagar" no mês do vencimento
-  function boletosPendentes(mes){
-    return (DADOS.pendentes||[]).map((p,i)=>{
-      const m = /boleto de R\$\s*([\d.]+,\d{2}).*?emitido por (.+?), que vence em (\d{2})\/(\d{2})/i.exec(p.texto||""); if(!m) return null;
-      const base = (p.recebida_em||p.created_at||hojeISO).slice(0,7).split("-").map(Number);
-      let y = base[0]; if(+m[4] < base[1]) y++;
-      return {id:"bol-"+i, data:`${y}-${m[4]}-${m[3]}`, valor:+m[1].replace(/\./g,"").replace(",","."), tipo:"saida", boleto:true,
-        descricao:m[2].replace(/\b\w/g,c=>c.toUpperCase()), categoria:"Boleto", conta:"Conta Corrente Itaú"};
-    }).filter(b=>b && b.data.startsWith(mes));
-  }
+  function boletosPendentes(mes){ return boletosDDA(mes); }
   let FILT = {tipo:[], conta:[], cat:[], status:[]}, ORD = "recentes";
   let FILT_TMP = null, FILT_ABERTO = {tipo:true, conta:true, cat:false, status:true};
   function linhasExtrato(){
@@ -2306,6 +2307,12 @@ section.panel:has(#fech){display:none!important}
     }finally{ carregando = false; b.disabled = false; b.classList.remove("girando"); }
   }
   $("atualizar").addEventListener("click", carregar);
+  async function limparNotif(){
+    const b = $("notif-limpar"); if(b){ b.disabled = true; b.textContent = "Limpando…"; }
+    const {error} = await sb.rpc("notif_limpar");
+    if(error){ if(b){ b.disabled = false; b.textContent = "Não foi possível limpar"; } return; }
+    await carregar();
+  }
   async function salvarMeta(par){ const {error} = await sb.rpc("meta_salvar", par); if(error) throw error; }
   const lg = $("login"), lgMsg = (t,err) => { $("lg-msg").textContent = t||""; $("lg-msg").classList.toggle("err", !!err); };
   const traduz = m => /Invalid login/i.test(m) ? "E-mail ou senha incorretos." : /Email not confirmed/i.test(m) ? "Confirme o cadastro pelo link enviado ao seu e-mail." : /already registered/i.test(m) ? "Esse e-mail já tem acesso. Use Entrar." : /Password should/i.test(m) ? "A senha precisa ter pelo menos 8 caracteres." : /rate limit/i.test(m) ? "Muitas tentativas. Aguarde alguns minutos." : m;
