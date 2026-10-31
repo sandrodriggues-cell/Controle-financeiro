@@ -1608,7 +1608,7 @@ section.panel:has(#fech){display:none!important}
     + linhaBg(IC.ok,"azul","Não há nada para transferir", brl(0),"azul","");
     // Suas contas
     const corr = (DADOS.contas||[]).filter(c=>c.tipo!=="cartao");
-    $("bg-contas").innerHTML = corr.map(c=>linhaBg(logoImg("azul"),"logo","Itaú", brlS(si.saldo), si.saldo<0?"neg":"pos", `Conta corrente · Open Finance${si.qtdN?` · inclui ${si.qtdN} notificação`:""}`)).join("")
+    $("bg-contas").innerHTML = corr.map(c=>linhaBg(logoImg("azul"),"logo","Itaú", brlS(si.saldo), si.saldo<0?"neg":"pos", `Conta corrente${si.qtdN?` · inclui ${si.qtdN} notificação`:""}`)).join("")
       + `<div class="bg-tot"><span>Total</span><b class="num">${brl(si.saldo)}</b></div>`;
     // Seus cartões
     const cards = (DADOS.contas||[]).filter(c=>c.tipo==="cartao");
@@ -1619,7 +1619,7 @@ section.panel:has(#fech){display:none!important}
       totCart += v;
       const lim = c.limite!=null ? ` · limite disponível ${brl(+c.limite_disponivel)} de ${brl(+c.limite)}` : "";
       const nome = c.nome.replace(/^Itaú\s*/i,"Itaú ").replace(/\s+/g," ");
-      return linhaBg(logoImg(/uniclass/i.test(c.nome)?"azul":"laranja"),"logo", esc(nome)+` <span class="sub">final ${esc(c.numero||"")}</span>`, brl(v), v>0?"neg":"pos", ab ? `Fatura ${ab.status==="aberta"?"aberta":"fechada"} · vence ${dataBR(ab.vencimento)}` : "Fatura zerada", "", `data-cartao="${esc(c.nome)}"`);
+      return linhaBg(logoImg(/uniclass/i.test(c.nome)?"azul":"laranja"),"logo", esc(nome), brl(v), v>0?"neg":"pos", ab ? `Fatura ${ab.status==="aberta"?"aberta":"fechada"}` : "Fatura zerada", "", `data-cartao="${esc(c.nome)}"`);
     }).join("") + `<div class="bg-tot"><span>Total</span><b class="num">${brl(totCart)}</b></div>`;
     $("bg-cartoes").querySelectorAll("[data-cartao]").forEach(el=>el.onclick=()=>{ $("c-cartao").value = el.dataset.cartao; CMES=null; setView("cartoes"); });
     // Suas metas
