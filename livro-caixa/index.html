@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>kaixa</title>
-<meta name="theme-color" content="#0e1320">
+<meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="kaixa">
@@ -636,6 +636,14 @@ section.panel:has(#fech){display:none!important}
 
 /* Olho, sino e perfil só na aba Mais */
 .hd-acts[hidden]{display:flex;visibility:hidden}
+
+/* Teste: faixa escura no topo do fundo, só na visão geral (cor em --topo) */
+:root{--topo:#000000}
+body{position:relative}
+body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:352px;background:var(--topo);z-index:0;pointer-events:none}
+.wrap{position:relative;z-index:1}
+body.topo-on .saud #saud-t{color:rgba(255,255,255,.72)}
+body.topo-on .saud b{color:#fff}
 </style>
 </head>
 <body>
@@ -1102,6 +1110,7 @@ section.panel:has(#fech){display:none!important}
     const TIT = {lanc:"Seu <b>extrato</b>", ins:"Seus <b>insights</b>", cartoes:"Seus <b>cartões</b>", inv:"Seus <b>investimentos</b>", sim:"<b>Simulador</b>", mais:"<b>Mais</b> opções"};
     { const h = new Date().getHours(); $("saud-t").textContent = (h<5||h>=18?"Boa noite,":h<12?"Bom dia,":"Boa tarde,"); }
     { const ha = document.querySelector(".hd-acts"); ha.hidden = VIEW!=="mais"; if(ha.hidden) ha.querySelectorAll(".pop").forEach(x=>x.hidden=true); }
+    document.body.classList.toggle("topo-on", VIEW==="geral");
     $("pg-tit").innerHTML = TIT[VIEW]||""; $("pg-tit").hidden = !TIT[VIEW]; $("pg-logo").hidden = !!TIT[VIEW];
     renderCartoes();
     renderFaturas();
