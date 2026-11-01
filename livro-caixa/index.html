@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>kaixa</title>
-<meta name="theme-color" content="#0e1320">
+<meta name="theme-color" content="#07040b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="kaixa">
@@ -1132,6 +1132,7 @@ body.topo-on .bg-sec{background:rgba(255,255,255,.70);backdrop-filter:blur(14px)
     { const h = new Date().getHours(); $("saud-t").textContent = (h<5||h>=18?"Boa noite,":h<12?"Bom dia,":"Boa tarde,"); }
     { const ha = document.querySelector(".hd-acts"); ha.hidden = VIEW!=="mais"; if(ha.hidden) ha.querySelectorAll(".pop").forEach(x=>x.hidden=true); }
     document.body.classList.toggle("topo-on", VIEW==="geral");
+    { const m = document.querySelector('meta[name="theme-color"]'); if(m) m.content = VIEW==="geral" ? "#07040b" : (getComputedStyle(document.body).backgroundColor || "#ffffff"); }
     $("pg-tit").innerHTML = TIT[VIEW]||""; $("pg-tit").hidden = !TIT[VIEW]; $("pg-logo").hidden = !!TIT[VIEW];
     renderCartoes();
     renderFaturas();
