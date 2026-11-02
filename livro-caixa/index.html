@@ -821,6 +821,53 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
 .fd-it > b{font-size:14px;white-space:nowrap}
 .fd-tot{padding:14px 0 16px!important;border-top:1px solid var(--hair)}
 .fd-parc{font-size:12px;font-weight:600;color:#b45309;background:#fff4e5;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+
+/* Padrão do vídeo (medidas numa tela de 390 px): voltar 58, ícone 82, card a 20 px das bordas, linhas de 44 px sem divisória */
+.conta-det,.perg{padding-left:20px;padding-right:20px}
+.conta-det .sheet-back,.perg .sheet-back{width:58px;height:58px;margin:4px 0 0 -2px;background:var(--card);box-shadow:0 6px 20px rgba(17,24,39,.07)}
+.conta-det .sheet-back svg,.perg .sheet-back svg{width:22px;height:22px;stroke-width:2}
+.cd-hero{margin:14px 0 26px;gap:6px}
+.cd-hero img,.cd-hero .ic-gen{width:82px!important;height:82px!important;margin-bottom:16px}
+.cd-hero h2{font:600 21px/1.25 var(--f-body);letter-spacing:-.01em}
+.cd-hero p{font-size:13px}
+.cd-sec{border-radius:22px;padding:26px 20px 10px;margin-bottom:18px}
+.cd-h{font:600 16px/1.2 var(--f-body);padding-bottom:22px}
+.cd-txt{margin:22px 0 18px;font-size:14px;line-height:1.75}
+.cd-row{grid-template-columns:44px minmax(0,1fr) auto;gap:14px;padding:16px 0;border-bottom:0}
+.cd-ic{width:44px;height:44px}
+.cd-ic svg{width:19px;height:19px}
+.cd-mid{gap:4px}
+.cd-mid span{font-size:14px;color:var(--fg);opacity:.82}
+.cd-mid b{font-size:16px;font-weight:600}
+.cd-acao svg{width:21px;height:21px}
+.cd-bola{width:26px;height:26px}
+.cd-mini img,.cd-mini .ic-gen{width:44px!important;height:44px!important}
+/* fatura */
+.fd-graf{margin:0 -6px 16px}
+.fg-l{stroke:color-mix(in srgb,var(--fg) 7%,transparent)}
+.fg-base{stroke:color-mix(in srgb,var(--fg) 22%,transparent);stroke-width:1}
+.fg-y{font:9.5px var(--f-body);fill:var(--muted)}
+.fg-x{font:10px var(--f-body);fill:var(--muted)}
+.fg-ln{fill:none;stroke:var(--cd-cor,#4f72bf);stroke-width:2;stroke-linecap:round}
+.fg-p circle{fill:var(--bg);stroke:var(--cd-cor,#4f72bf);stroke-width:2}
+.fg-p.on circle{fill:var(--bg);stroke-width:2.6}
+.fg-tip{fill:color-mix(in srgb,var(--cd-cor,#4f72bf) 70%,#fff)}
+.fg-tipt{font:600 10.5px var(--f-body);fill:#fff;text-anchor:middle}
+.fd-mes{margin-bottom:18px}
+.fd-hh{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--hair);padding-bottom:14px}
+.fd-hh .cd-h{border:0;padding:0}
+.fd-acts{display:flex;gap:8px}
+.fd-act{width:44px;height:44px;border-radius:50%;border:0;background:var(--card);box-shadow:var(--sh-s);display:grid;place-items:center;color:var(--fg);cursor:pointer}
+.fd-act.on{background:var(--fg);color:var(--bg)}
+.fd-act svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fd-busca{margin:0 0 10px}
+.fd-lista{margin:0 -20px}
+.fd-lista .mov{border-radius:0;box-shadow:none}
+.fd-lista .dia-tot{padding-left:20px;padding-right:20px}
+.fd-x{position:fixed;right:20px;bottom:calc(22px + env(safe-area-inset-bottom,0px));width:62px;height:62px;border-radius:50%;border:0;background:var(--card);box-shadow:0 8px 24px rgba(17,24,39,.14);display:grid;place-items:center;color:var(--fg);cursor:pointer;z-index:2}
+.fd-x svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.fat-det{padding-bottom:110px}
+.cd-sw:disabled{opacity:.6;cursor:default}
 </style>
 </head>
 <body>
@@ -1153,7 +1200,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   </div>
 
   <div id="v-mais" class="vstack" hidden>
-    <p class="sub versao" style="text-align:center;margin:0">Versão do app: 02/11/2026 · fatura e logos de bancos</p>
+    <p class="sub versao" style="text-align:center;margin:0">Versão do app: 02/11/2026 · padrão do vídeo</p>
     <div class="mais-grid">
       <button type="button" class="tile" id="m-sim"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="2.5" width="15" height="19" rx="2.5"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg><b>Simulador</b><span>Projeção de patrimônio</span></button>
       <button type="button" class="tile" id="m-atu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg><b>Atualizar dados</b><span>Buscar a última carga</span></button>
@@ -1174,6 +1221,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     <div class="fd-graf" id="fd-graf"></div>
     <div class="mes-pill fd-mes"><button type="button" class="mes-arr" id="fd-ant" aria-label="Fatura anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><span class="mes-c" id="fd-mes">—</span><button type="button" class="mes-arr" id="fd-prox" aria-label="Próxima fatura"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
     <div id="fd-corpo"></div>
+    <button type="button" class="fd-x" id="fd-x" aria-label="Fechar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   </div>
   <div class="sheet perg" id="perg" hidden role="dialog" aria-modal="true" aria-labelledby="perg-tit">
     <button type="button" class="ic-round sheet-back" id="perg-voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 5l-7 7 7 7"/></svg></button>
@@ -1296,8 +1344,18 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   }
 
   // ---------- Renderização ----------
+  function aplicaMarcas(){
+    const idNome = {}; (DADOS.contas||[]).forEach(c=>idNome[c.id]=c.nome);
+    (DADOS.faturas||[]).forEach(f=>{
+      if(!("_pago_banco" in f)) f._pago_banco = f.pago_em || null;
+      const m = (DADOS.faturas_marcas||[]).find(x=>idNome[x.conta]===f.conta && x.vencimento===f.vencimento);
+      f.pago_manual = !!(m && m.paga && !f._pago_banco);
+      f.pago_em = f._pago_banco || (f.pago_manual ? String(m.criado_em).slice(0,10) : null);
+    });
+  }
   function render(){
     if(!DADOS) return;
+    aplicaMarcas();
     ["geral","lanc","cartoes","inv","ins","mais","sim"].forEach(v=>{ $("v-"+v).hidden = VIEW!==v; });
     document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected", b.dataset.v===VIEW || (VIEW==="sim" && b.dataset.v==="mais")));
     document.querySelector(".foot").hidden = VIEW!=="mais";
@@ -1818,7 +1876,8 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   const IC = {"carteira": "<svg viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"6\" width=\"18\" height=\"13\" rx=\"3\"/><path d=\"M16 12.5h2M3 9h15a3 3 0 0 0-3-3H6\"/></svg>", "brilho": "<svg viewBox=\"0 0 24 24\"><rect x=\"4\" y=\"5\" width=\"13\" height=\"14\" rx=\"3\"/><path d=\"M19 2.5v4M17 4.5h4M10.5 9.5l1 2 2 1-2 1-1 2-1-2-2-1 2-1z\"/></svg>", "sobe": "<svg viewBox=\"0 0 24 24\"><path d=\"M7 17 17 7M9 7h8v8\"/></svg>", "desce": "<svg viewBox=\"0 0 24 24\"><path d=\"M7 7l10 10M17 9v8H9\"/></svg>", "balanca": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 4v16M7 20h10M5 7h14M5 7l-2.5 6a2.5 2.5 0 0 0 5 0zM19 7l-2.5 6a2.5 2.5 0 0 0 5 0z\"/></svg>", "ok": "<svg viewBox=\"0 0 24 24\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/></svg>", "cofre": "<svg viewBox=\"0 0 24 24\"><rect x=\"3.5\" y=\"5\" width=\"17\" height=\"14\" rx=\"2.5\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 9v-1M7 19v1.5M17 19v1.5\"/></svg>", "alvo": "<svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"8\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/><circle cx=\"12\" cy=\"12\" r=\".8\"/></svg>"};
   const linhaBg = (ic, cor, t, v, vcls, sub, extra="", attrs="") => `<div class="bg-row${attrs?" clic":""}" ${attrs}><span class="bg-ic ${cor}">${ic}</span><div><div class="bg-t">${t}</div><div class="bg-v ${vcls}">${v}</div>${sub?`<div class="bg-s">${sub}</div>`:""}${extra}</div><span></span></div>`;
   const LOGO = {azul:"data:image/png;base64,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", laranja:"data:image/png;base64,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"};
-  const logoImg = cor => `<img src="${LOGO[cor]}" alt="Itaú" width="46" height="46">`;
+  const ITAU_SVG = {azul:"bancos/itau-azul.svg", laranja:"bancos/itau-laranja.svg", "itau-azul":"bancos/itau-azul.svg", "itau-laranja":"bancos/itau-laranja.svg", "itau-classico":"bancos/itau-classico.svg", "itau-uniclass":"bancos/itau-uniclass.svg"};
+  const logoImg = cor => `<img src="${ITAU_SVG[cor]}" alt="Itaú" width="46" height="46">`;
   const brlS = v => (v<0?"-":"")+brl(Math.abs(v));
   function metaAtual(m){
     const inv = DADOS.investimentos||[], si = saldoInfo();
@@ -2455,7 +2514,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   };
   // ícones genéricos (desenhos próprios) + logos do Itaú
   const ICONES = {
-    "itau-azul":{nome:"Itaú (azul)"}, "itau-laranja":{nome:"Itaú (laranja)"},
+    "itau-azul":{nome:"Itaú (azul)"}, "itau-laranja":{nome:"Itaú (laranja)"}, "itau-classico":{nome:"Itaú (clássico)"}, "itau-uniclass":{nome:"Itaú (Uniclass)"},
     carteira:{nome:"Carteira", svg:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M16 13h.01M3 10h18"/>'},
     banco:{nome:"Banco", svg:'<path d="M3 9.5L12 4l9 5.5M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/>'},
     cofre:{nome:"Cofre", svg:'<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5v1M12 14.5v1M6.5 19.5v1.5M17.5 19.5v1.5"/>'},
@@ -2471,7 +2530,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   const corPadrao = c => c.tipo==="cartao" ? (/uniclass/i.test(c.nome)?"#2f4a86":"#f2994a") : "#4f72bf";
   function iconeHTML(c, tam){
     const pf = prefConta(c.id), k = pf.icone || (c.tipo==="cartao" ? (/uniclass/i.test(c.nome)?"itau-azul":"itau-laranja") : "itau-azul");
-    if(k==="itau-azul"||k==="itau-laranja") return `<img src="${LOGO[k==="itau-azul"?"azul":"laranja"]}" alt="" width="${tam}" height="${tam}" style="width:${tam}px;height:${tam}px;border-radius:50%;display:block">`;
+    if(ITAU_SVG[k]) return `<img src="${ITAU_SVG[k]}" alt="" width="${tam}" height="${tam}" style="width:${tam}px;height:${tam}px;border-radius:50%;display:block">`;
     if(BANCOS[k]) return `<img src="${BANCOS[k].img}" alt="" width="${tam}" height="${tam}" style="width:${tam}px;height:${tam}px;border-radius:50%;display:block">`;
     const i = ICONES[k]||ICONES.outros, cor = pf.cor || corPadrao(c);
     return `<span class="ic-gen" style="width:${tam}px;height:${tam}px;background:${cor}">${SV(i.svg)}</span>`;
@@ -2484,8 +2543,8 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   let CONTA_ID = null;
   function abreConta(id){ CONTA_ID = id; desenhaConta(); $("conta-det").hidden = false; document.body.classList.add("sheet-on"); $("conta-det").scrollTop = 0; }
   function fechaConta(){ $("conta-det").hidden = true; document.body.classList.remove("sheet-on"); CONTA_ID = null; }
-  function cdLinha(ic, rot, valor, campo){
-    const dir = campo ? `<button type="button" class="cd-acao" data-edita="${campo}" aria-label="Editar ${rot}">${ICD.lapis}</button>` : `<span class="cd-acao cd-trava" title="Vem do Itaú">${ICD.cad}</span>`;
+  function cdLinha(ic, rot, valor, campo, semCad){
+    const dir = campo ? `<button type="button" class="cd-acao" data-edita="${campo}" aria-label="Editar ${rot}">${ICD.lapis}</button>` : semCad ? "" : `<span class="cd-acao cd-trava" title="Vem do Itaú">${ICD.cad}</span>`;
     return `<div class="cd-row"><span class="cd-ic">${ic}</span><div class="cd-mid"><span>${rot}</span>${valor}</div>${dir}</div>`;
   }
   const secao = (tit, txt, corpo) => `<section class="cd-sec"><h3 class="cd-h">${tit}</h3><p class="cd-txt">${txt}</p>${corpo}</section>`;
@@ -2546,7 +2605,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     } else if(campo==="icone"){
       const padrao = c.tipo==="cartao" ? (/uniclass/i.test(c.nome)?"itau-azul":"itau-laranja") : "itau-azul", cur = pf.icone || padrao;
       const visIc = (k, tam) => { const f = Object.assign({}, c); const save = DADOS.contas_pref; DADOS.contas_pref = [{conta:c.id, icone:k, cor:pf.cor}]; const h = iconeHTML(f, tam); DADOS.contas_pref = save; return h; };
-      const todos = [["__padrao","Ícone padrão"],["itau-azul","Itaú"],["itau-laranja","Itaú (laranja)"]].concat(Object.entries(BANCOS).map(([k,b])=>[k,b.nome]), Object.entries(ICONES).filter(([k])=>!k.startsWith("itau")).map(([k,i])=>[k,i.nome+" (ícone)"]));
+      const todos = [["__padrao","Ícone padrão"],["itau-azul","Itaú (azul)"],["itau-laranja","Itaú (laranja)"],["itau-classico","Itaú (clássico)"],["itau-uniclass","Itaú (Uniclass)"]].concat(Object.entries(BANCOS).map(([k,b])=>[k,b.nome]), Object.entries(ICONES).filter(([k])=>!k.startsWith("itau")).map(([k,i])=>[k,i.nome+" (ícone)"]));
       const lista = q => todos.filter(([k,n])=>!q || n.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").includes(q)).map(([k,n])=>{
         const kk = k==="__padrao" ? padrao : k, sel = k==="__padrao" ? !pf.icone : (pf.icone===k);
         return `<button type="button" class="perg-item" data-v="${k}">${visIc(kk,42)}<b>${esc(n)}</b>${sel?'<span class="perg-check">✓</span>':`<span class="cd-acao">${ICD.seta}</span>`}</button>`; }).join("") || '<p class="perg-desc">Nenhum ícone com esse nome.</p>';
@@ -2565,7 +2624,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   function abreFatura(id){
     const c = (DADOS.contas||[]).find(x=>x.id===id); if(!c) return;
     const fs = fatsCartao(c); const ab = fs.find(f=>f.status==="aberta") || fs[fs.length-1];
-    FD = {id, venc: ab ? ab.vencimento : null};
+    FD = {id, venc: ab ? ab.vencimento : null, ord:"data", busca:false, q:""};
     desenhaFatura(); $("fat-det").hidden = false; $("fat-det").scrollTop = 0;
   }
   const lojaLimpa = d => String(d||"").replace(/\s*(PIRAPORA|SAO\s?PAULO|PAULO|SAO|BELO\s?HORIZONTE|MONTES\s?CLAROS|CURITIBA|OSASCO|BARUERI)?\s*BR$/i,"").replace(/\s*\d{2}\/\d{2}$/,"").trim() || String(d||"");
@@ -2580,15 +2639,20 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   }
   function graficoFaturas(fs, sel){
     if(!fs.length) return "";
-    const i0 = Math.max(0, Math.min(fs.findIndex(f=>f.vencimento===sel)-2, fs.length-5)); const vis = fs.slice(i0, i0+5);
-    const W=340,H=170,L=56,R=30,T=12,B=34, vals = vis.map(valFat), mx = Math.max(...vals, 1);
-    const passo = [1,2,5,10,20,50,100,200,250,500,1000,2000,2500,5000].find(x=>mx/x<=5) || 5000, topo = Math.ceil(mx/passo)*passo || passo;
-    const x = i => L + (vis.length===1 ? (W-L-R)/2 : i*(W-L-R)/(vis.length-1)), y = v => T + (H-T-B)*(1 - v/topo);
+    const iS = Math.max(0, fs.findIndex(f=>f.vencimento===sel));
+    const i0 = Math.max(0, Math.min(iS-1, fs.length-3)); const vis = fs.slice(i0, i0+3);
+    const W=350,H=300,L=62,R=14,T=34,B=36, vals = vis.map(valFat), mx = Math.max(...vals, 1);
+    const passo = [0.2,0.5,1,2,5,10,20,25,50,100,200,250,500,1000,2000,2500,5000].find(x=>mx/x<=6) || 5000, topo = Math.ceil(mx*1.15/passo)*passo || passo;
+    const x = i => L + (W-L-R)*(i+0.5)/vis.length, y = v => T + (H-T-B)*(1 - v/topo);
+    const P = vis.map((f,i)=>[x(i), y(valFat(f))]);
+    let d = `M${P[0][0]},${P[0][1]}`;
+    for(let k=1;k<P.length;k++){ const [x0,y0]=P[k-1],[x1,y1]=P[k], cx=(x0+x1)/2; d += ` C${cx},${y0} ${cx},${y1} ${x1},${y1}`; }
     let g = "";
-    for(let v=0; v<=topo+1e-9; v+=passo){ g += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" class="fg-l"/><text x="${L-8}" y="${y(v)+3.5}" class="fg-y">${brl(v).replace(/,00$/,"")}</text>`; }
-    const pts = vis.map((f,i)=>`${x(i)},${y(valFat(f))}`).join(" ");
-    g += `<polyline points="${pts}" class="fg-ln"/>`;
-    g += vis.map((f,i)=>{ const m=+f.vencimento.slice(5,7)-1, on=f.vencimento===sel; return `<g class="fg-p${on?" on":""}" data-venc="${f.vencimento}"><circle cx="${x(i)}" cy="${y(valFat(f))}" r="${on?6.5:5}"/><rect x="${x(i)-26}" y="${T}" width="52" height="${H-T}" fill="transparent"/><text x="${x(i)}" y="${H-12}" class="fg-x">${MESES_C[m]}/${f.vencimento.slice(2,4)}</text></g>`; }).join("");
+    for(let v=0; v<=topo+1e-9; v+=passo){ g += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" class="fg-l"/><text x="${L-8}" y="${y(v)+3.5}" class="fg-y">${passo>=1 ? brl(v).replace(/,00$/,"") : brl(v)}</text>`; }
+    g += `<line x1="${L}" x2="${W-R}" y1="${y(0)}" y2="${y(0)}" class="fg-base"/>`;
+    g += `<path d="${d}" class="fg-ln"/>`;
+    g += vis.map((f,i)=>{ const m=+f.vencimento.slice(5,7)-1, on=f.vencimento===sel, [px,py]=P[i], val=brl(valFat(f)), bw=val.length*6.4+18;
+      return `<g class="fg-p${on?" on":""}" data-venc="${f.vencimento}"><rect x="${px-(W-L-R)/vis.length/2}" y="${T}" width="${(W-L-R)/vis.length}" height="${H-T}" fill="transparent"/><circle cx="${px}" cy="${py}" r="5.5"/>${on?`<rect x="${px-bw/2}" y="${py-34}" width="${bw}" height="22" rx="7" class="fg-tip"/><text x="${px}" y="${py-19}" class="fg-tipt">${val}</text>`:""}<text x="${px}" y="${H-12}" class="fg-x">Fatura · ${MESES_C[m]}/${f.vencimento.slice(0,4)}</text></g>`; }).join("");
     return `<svg viewBox="0 0 ${W} ${H}" class="fg" role="img" aria-label="Valor das faturas por mês">${g}</svg>`;
   }
   function desenhaFatura(){
@@ -2606,22 +2670,41 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     $("fd-graf").querySelectorAll("[data-venc]").forEach(g=>g.onclick=()=>{ FD.venc = g.dataset.venc; desenhaFatura(); });
     if(!f){ $("fd-corpo").innerHTML = secao("Movimentações","Ainda não há faturas deste cartão.",""); return; }
     const ant = fs[i-1], ini = ant && ant.fechamento ? addDia(ant.fechamento,1) : null, fim = f.fechamento;
-    const its = (DADOS.transacoes||[]).filter(t=>t.conta===c.nome && t.fatura_venc===f.vencimento && !t.transferencia).sort((a,b)=>b.data.localeCompare(a.data));
+    const aberta = !f.pago_em;
+    let its = (DADOS.transacoes||[]).filter(t=>t.conta===c.nome && t.fatura_venc===f.vencimento && !t.transferencia);
+    const q = (FD.q||"").toLowerCase();
+    if(q) its = its.filter(t=>(t.descricao+" "+(t.categoria||"")).toLowerCase().includes(q));
+    its.sort(FD.ord==="valor" ? (a,b)=>b.valor-a.valor : (a,b)=>b.data.localeCompare(a.data));
     const periodo = ini && fim ? `Ela inclui as compras feitas de ${dataBR(ini)}/${ini.slice(0,4)} até ${dataBR(fim)}/${fim.slice(0,4)}${f.fechamento_previsto?" (fechamento previsto)":""}.` : "";
-    const linhas = its.length ? its.map(t=>{ const [ic,cr] = iconeCat(t), ent = t.tipo==="entrada";
-        return `<div class="fd-it"><span class="fd-ic" style="background:${cr}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICS[ic]||""}</svg></span><div class="cd-mid"><b>${esc(nomeBonito(lojaLimpa(t.descricao)))}</b><span>${dataBR(t.data)}${t.parcelas_total>1?` · parcela ${t.parcela_atual}/${t.parcelas_total}`:""}${t.agendada?" · prevista":""}</span></div><b class="num ${ent?"pos":"neg"}">${ent?"+":"−"} ${brl(t.valor)}</b></div>`; }).join("")
-      : `<p class="cd-txt fd-vazio">Nenhuma compra nesta fatura.</p>`;
+    const rows = its.map(t=>Object.assign({}, t, {descricao: nomeBonito(lojaLimpa(t.descricao)), ent: t.tipo==="entrada", aberto: aberta, tf:false, previsto:false, boleto:false, contaNome: nomeConta(c)}));
+    const tot = rows.reduce((a,t)=>a+(t.ent?t.valor:-t.valor),0);
+    const lista = rows.length ? rows.map(itemHTML).join("") + `<div class="dia-tot"><span>Total</span><b class="num">${tot<0?"−":""}${brl(Math.abs(tot))}</b></div>`
+      : `<p class="cd-txt fd-vazio">${q?"Nenhuma compra com essa busca.":"Nenhuma compra nesta fatura."}</p>`;
     const dif = f.status!=="aberta" && f.valor_oficial!=null ? Math.round((+f.valor_oficial - +f.soma_itens)*100)/100 : 0;
+    const acoes = `<span class="fd-acts"><button type="button" class="fd-act${FD.ord==="valor"?" on":""}" id="fd-ord" aria-label="Ordenar por ${FD.ord==="valor"?"data":"valor"}" title="Ordenar">${SV('<path d="M4 6h10M4 11h7M4 16h4M17 5v14M14 16l3 3 3-3"/>')}</button><button type="button" class="fd-act${FD.busca?" on":""}" id="fd-bus" aria-label="Pesquisar">${ICD.lupa}</button></span>`;
+    const busca = FD.busca ? `<label class="perg-busca fd-busca">${ICD.lupa}<input id="fd-q" placeholder="Pesquisar nesta fatura" autocomplete="off" value="${esc(FD.q||"")}"></label>` : "";
+    const pagoBanco = !!f._pago_banco, marcado = !!f.pago_em;
     $("fd-corpo").innerHTML =
-      secao("Movimentações", `Essas são todas as movimentações incluídas nesta fatura. ${periodo}`, linhas + (its.length?`<div class="bg-tot fd-tot"><span>Total das compras</span><b class="num">${brl(+f.soma_itens)}</b></div>`:""))
-    + secao("Status", "A situação desta fatura, conforme o Itaú.",
-        cdLinha(ICD.saldo,"Valor",`<b>${brl(v)}${f.status==="aberta"&&v>0?' <span class="fd-parc">parcial</span>':""}</b>`)
-      + cdLinha(ICD.nome,"Status",`<b>${st.s}</b>`)
-      + cdLinha(ICD.cal,"Fechamento",`<b>${f.fechamento?dataBR(f.fechamento)+"/"+f.fechamento.slice(0,4):"—"}${f.fechamento_previsto?" (previsto)":""}</b>`)
-      + cdLinha(ICD.cal,"Vencimento",`<b>${dataBR(f.vencimento)}/${f.vencimento.slice(0,4)}</b>`)
-      + (dif ? cdLinha(ICD.desc,"Diferença para o total oficial",`<b>${brl(dif)}</b>`) : ""));
+      `<section class="cd-sec"><div class="fd-hh"><h3 class="cd-h">Movimentações</h3>${acoes}</div><p class="cd-txt">Essas são todas as movimentações incluídas nesta fatura. ${periodo}</p>${busca}<div class="extrato fd-lista">${lista}</div></section>`
+    + secao("Status", pagoBanco ? "O Itaú já registrou o pagamento desta fatura." : "Marque quando já tiver pago. A fatura sai das despesas a pagar e do saldo projetado.",
+        cdLinha(ICD.saldo,"Valor",`<b>${brl(v)}${f.status==="aberta"&&v>0?' <span class="fd-parc">parcial</span>':""}</b>`, null, true)
+      + cdLinha(ICD.nome,"Status",`<b>${st.s}${f.pago_manual?" (marcado por você)":""}</b>`, null, true)
+      + `<div class="cd-row"><span class="cd-ic">${SV('<path d="M6 21V4M6 4h11l-2 4 2 4H6"/>')}</span><div class="cd-mid"><b class="cd-b1">Já <strong>paguei</strong> a fatura</b></div><button type="button" class="cd-sw" id="fd-pago" role="switch" aria-checked="${marcado}" aria-label="Já paguei a fatura"${pagoBanco?" disabled":""}><i></i></button></div>`
+      + cdLinha(ICD.cal,"Fechamento",`<b>${f.fechamento?dataBR(f.fechamento)+"/"+f.fechamento.slice(0,4):"—"}${f.fechamento_previsto?" (previsto)":""}</b>`, null, true)
+      + cdLinha(ICD.cal,"Vencimento",`<b>${dataBR(f.vencimento)}/${f.vencimento.slice(0,4)}</b>`, null, true)
+      + (dif ? cdLinha(ICD.desc,"Diferença para o total oficial",`<b>${brl(dif)}</b>`, null, true) : ""));
+    $("fd-ord").onclick = ()=>{ FD.ord = FD.ord==="valor" ? "data" : "valor"; desenhaFatura(); };
+    $("fd-bus").onclick = ()=>{ FD.busca = !FD.busca; if(!FD.busca) FD.q = ""; desenhaFatura(); const i=$("fd-q"); if(i) i.focus(); };
+    const fq = $("fd-q"); if(fq) fq.oninput = e=>{ FD.q = e.target.value; const pos = e.target.selectionStart; desenhaFatura(); const i=$("fd-q"); if(i){ i.focus(); i.setSelectionRange(pos,pos); } };
+    $("fd-pago").onclick = async ()=>{ if(pagoBanco) return;
+      const nv = !marcado;
+      try{ const {error} = await sb.rpc("fatura_marcar", {p_conta:c.id, p_venc:f.vencimento, p_paga:nv}); if(error) throw error;
+        DADOS.faturas_marcas = (DADOS.faturas_marcas||[]).filter(m=>!(m.conta===c.id && m.vencimento===f.vencimento)).concat([{conta:c.id, vencimento:f.vencimento, paga:nv, criado_em:new Date().toISOString()}]);
+        render(); desenhaFatura(); toast(nv ? "Fatura marcada como paga" : "Marcação de pagamento removida");
+      }catch(e){ toast("Não foi possível salvar"); } };
   }
   $("fd-voltar").addEventListener("click", fechaFatura);
+  $("fd-x").addEventListener("click", fechaFatura);
   $("fd-ant").addEventListener("click", ()=>{ const c=(DADOS.contas||[]).find(x=>x.id===FD.id), fs=fatsCartao(c), i=fs.findIndex(f=>f.vencimento===FD.venc); if(i>0){ FD.venc=fs[i-1].vencimento; desenhaFatura(); } });
   $("fd-prox").addEventListener("click", ()=>{ const c=(DADOS.contas||[]).find(x=>x.id===FD.id), fs=fatsCartao(c), i=fs.findIndex(f=>f.vencimento===FD.venc); if(i>=0 && i<fs.length-1){ FD.venc=fs[i+1].vencimento; desenhaFatura(); } });
   let TOAST_T = null;
