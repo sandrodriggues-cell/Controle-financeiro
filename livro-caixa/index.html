@@ -756,6 +756,40 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
 .cd-sw i{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s}
 .cd-sw[aria-checked="true"]{background:#2b2b33}
 .cd-sw[aria-checked="true"] i{left:23px}
+
+/* Detalhe da conta/cartão: cor escolhida no fundo, telas de pergunta e aviso */
+.conta-det{background:linear-gradient(to bottom,var(--bg) 0,var(--bg) 28%,color-mix(in srgb,var(--cd-cor,#c8d3ea) 30%,var(--bg)) 100%)}
+.ic-gen{display:grid;place-items:center;border-radius:50%;color:#fff}
+.ic-gen svg{width:52%;height:52%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cd-hero .ic-gen{margin-bottom:10px}
+.cd-bola{display:block;width:26px;height:26px;border-radius:50%;margin-top:4px}
+.cd-mini{display:block;margin-top:4px}
+.perg{z-index:70;padding-left:20px;padding-right:20px}
+.perg-tit{font:400 22px/1.3 var(--f-body);color:var(--fg);margin:28px 0 8px}
+.perg-tit b{font-weight:700}
+.perg-desc{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0 0 18px}
+.perg-txt{display:flex;align-items:center;gap:8px;border:1.5px solid var(--fg);border-radius:999px;padding:6px 6px 6px 18px;margin-top:22px}
+.perg-txt input{flex:1;border:0;outline:0;background:none;font:500 16px var(--f-body);color:var(--fg);min-width:0}
+.perg-txt button{flex:none;width:46px;height:46px;border-radius:50%;border:0;background:var(--fg);color:var(--bg);display:grid;place-items:center;cursor:pointer}
+.perg-txt button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.perg-lista{display:flex;flex-direction:column}
+.perg-item{display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 0;border:0;border-bottom:1px solid var(--hair);background:none;text-align:left;font:inherit;color:var(--fg);cursor:pointer}
+.perg-item > img,.perg-item > .ic-gen{justify-self:center}
+.perg-item b{font-size:15px;font-weight:500}
+.perg-check{width:30px;height:30px;border-radius:50%;background:var(--fg);color:var(--bg);display:grid;place-items:center;font-size:14px;font-weight:700}
+.perg-cores{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:10px}
+.perg-cor{aspect-ratio:1;border-radius:50%;border:0;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.perg-cor.on{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--fg)}
+.perg-livre{display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding:14px 16px;border-radius:16px;background:var(--soft,#f6f7f9);font-size:14px;color:var(--fg)}
+.perg-livre input{width:44px;height:32px;border:0;padding:0;background:none}
+.perg-busca{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;background:var(--soft,#f6f7f9);margin-bottom:10px;color:var(--muted)}
+.perg-busca svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.perg-busca input{flex:1;border:0;outline:0;background:none;font:15px var(--f-body);color:var(--fg)}
+.toast{position:fixed;left:16px;right:16px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:90;display:flex;align-items:center;gap:12px;background:var(--card);border-radius:20px;box-shadow:0 10px 30px rgba(17,24,39,.18);padding:14px 14px 14px 16px}
+.toast[hidden]{display:none}
+.toast-ic{flex:none;width:30px;height:30px;border-radius:50%;background:#2bb673;color:#fff;display:grid;place-items:center;font-weight:700}
+.toast p{flex:1;margin:0;font-size:14px;color:var(--fg)}
+.toast button{flex:none;border:0;background:none;font-size:16px;color:var(--muted);cursor:pointer;width:32px;height:32px}
 </style>
 </head>
 <body>
@@ -1088,7 +1122,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   </div>
 
   <div id="v-mais" class="vstack" hidden>
-    <p class="sub versao" style="text-align:center;margin:0">Versão do app: 02/11/2026 · detalhe da conta</p>
+    <p class="sub versao" style="text-align:center;margin:0">Versão do app: 02/11/2026 · detalhes e edição</p>
     <div class="mais-grid">
       <button type="button" class="tile" id="m-sim"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="2.5" width="15" height="19" rx="2.5"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg><b>Simulador</b><span>Projeção de patrimônio</span></button>
       <button type="button" class="tile" id="m-atu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg><b>Atualizar dados</b><span>Buscar a última carga</span></button>
@@ -1100,10 +1134,16 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
 
   <div class="sheet conta-det" id="conta-det" hidden role="dialog" aria-modal="true" aria-labelledby="cd-nome">
     <button type="button" class="ic-round sheet-back" id="cd-voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 5l-7 7 7 7"/></svg></button>
-    <div class="cd-hero"><span id="cd-logo"></span><h2 id="cd-nome">—</h2><p>Detalhes da sua conta</p></div>
-    <section class="cd-sec"><h3 class="cd-h">Detalhes</h3><p class="cd-txt">Toque no lápis para mudar o nome ou a descrição. Saldo, tipo e moeda vêm direto do Itaú e não podem ser alterados aqui.</p><div id="cd-det"></div></section>
-    <section class="cd-sec"><h3 class="cd-h">Ações</h3><p class="cd-txt">Escolha se esta conta entra no saldo geral ou veja todas as movimentações dela no extrato.</p><div id="cd-acoes"></div></section>
+    <div class="cd-hero"><span id="cd-logo"></span><h2 id="cd-nome">—</h2><p id="cd-sub">Detalhes da sua conta</p></div>
+    <div id="cd-corpo"></div>
   </div>
+  <div class="sheet perg" id="perg" hidden role="dialog" aria-modal="true" aria-labelledby="perg-tit">
+    <button type="button" class="ic-round sheet-back" id="perg-voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 5l-7 7 7 7"/></svg></button>
+    <h2 class="perg-tit" id="perg-tit"></h2>
+    <p class="perg-desc" id="perg-desc"></p>
+    <div id="perg-corpo"></div>
+  </div>
+  <div class="toast" id="toast" hidden role="status"><span class="toast-ic">✓</span><p id="toast-txt"></p><button type="button" id="toast-x" aria-label="Fechar">✕</button></div>
   <div class="sheet" id="filtros" hidden role="dialog" aria-modal="true" aria-labelledby="filt-tit">
     <button type="button" class="ic-round sheet-back" id="filt-voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 5l-7 7 7 7"/></svg></button>
     <h2 class="sheet-tit" id="filt-tit">Aplique filtros</h2>
@@ -1782,7 +1822,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     // Suas contas
     const corr = (DADOS.contas||[]).filter(c=>c.tipo!=="cartao");
     $("bg-contas").innerHTML = corr.map(c=>{ const pf = prefConta(c.id), dentro = contaNoSaldo(c), sc = saldoConta(c);
-        return linhaBg(logoImg("azul"),"logo", esc(pf.apelido||"Itaú"), brlS(sc), sc<0?"neg":"pos", esc(pf.descricao||"Conta corrente") + (dentro?"":" · fora do saldo geral"), "", `data-conta="${esc(c.id)}"`); }).join("")
+        return linhaBg(iconeHTML(c,46),"logo", esc(nomeConta(c)), brlS(sc), sc<0?"neg":"pos", esc(pf.descricao||"Conta corrente") + (dentro?"":" · fora do saldo geral"), "", `data-conta="${esc(c.id)}"`); }).join("")
       + `<div class="bg-tot"><span>Total</span><b class="num">${brl(si.saldo)}</b></div>`;
     $("bg-contas").querySelectorAll("[data-conta]").forEach(el=>el.onclick=()=>abreConta(el.dataset.conta));
     // Seus cartões
@@ -1794,9 +1834,9 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
       totCart += v;
       const lim = c.limite!=null ? ` · limite disponível ${brl(+c.limite_disponivel)} de ${brl(+c.limite)}` : "";
       const nome = c.nome.replace(/^Itaú\s*/i,"Itaú ").replace(/\s+/g," ");
-      return linhaBg(logoImg(/uniclass/i.test(c.nome)?"azul":"laranja"),"logo", esc(nome), brl(v), v>0?"neg":"pos", ab ? `Fatura ${ab.status==="aberta"?"aberta":"fechada"}` : "Fatura zerada", "", `data-cartao="${esc(c.nome)}"`);
+      return linhaBg(iconeHTML(c,46),"logo", esc(nomeConta(c)), brl(v), v>0?"neg":"pos", ab ? `Fatura ${ab.status==="aberta"?"aberta":"fechada"}` : "Fatura zerada", "", `data-conta="${esc(c.id)}"`);
     }).join("") + `<div class="bg-tot"><span>Total</span><b class="num">${brl(totCart)}</b></div>`;
-    $("bg-cartoes").querySelectorAll("[data-cartao]").forEach(el=>el.onclick=()=>{ $("c-cartao").value = el.dataset.cartao; CMES=null; setView("cartoes"); });
+    $("bg-cartoes").querySelectorAll("[data-conta]").forEach(el=>el.onclick=()=>abreConta(el.dataset.conta));
     // Suas metas
     const metas = DADOS.metas||[];
     $("bg-metas").innerHTML = metas.length ? metas.map(m=>{
@@ -2024,10 +2064,11 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     return {fs, ini, fim};
   }
 
+  let CART_PEND = null;
   function renderCartoes(){
     if(VIEW!=="cartoes") return;
     const cards = DADOS.contas.filter(c=>c.tipo==="cartao");
-    const selC = $("c-cartao"), cart = selC.value;
+    const selC = $("c-cartao"), cart = CART_PEND!=null ? CART_PEND : selC.value; CART_PEND = null;
     selC.innerHTML = '<option value="">Todos os cartões</option>' + cards.map(c=>`<option value="${esc(c.nome)}"${c.nome===cart?" selected":""}>${esc(c.nome)} · final ${esc(c.numero||"")}</option>`).join("");
     const fatsAll = (DADOS.faturas||[]).filter(f=>!cart || f.conta===cart);
     const meses = [...new Set(fatsAll.map(f=>f.vencimento.slice(0,7)))].sort().reverse();
@@ -2354,55 +2395,136 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     <circle cx="203" cy="152" r="7" fill="none" stroke="#24242a" stroke-width="2.8"/>
   </svg>`;
   function saldoConta(c){ const s = (DADOS.saldos||[]).find(x=>x.nome===c.nome); return s ? +s.saldo_atual : +c.saldo||0; }
+  const SV = d => `<svg viewBox="0 0 24 24">${d}</svg>`;
   const ICD = {
-    nome:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" stroke-dasharray="2.2 2.2"/><path d="M12 11v5M12 8h.01"/></svg>',
-    desc:'<svg viewBox="0 0 24 24"><path d="M5 17.5c3.5 0 4-2.5 4-5.5H5.5V6.5H10V12M14 17.5c3.5 0 4-2.5 4-5.5h-3.5V6.5H19V12"/></svg>',
-    tipo:'<svg viewBox="0 0 24 24"><path d="M7 4h10v16l-5-4-5 4z"/></svg>',
-    saldo:'<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="3"/><path d="M16 13h.01M3 10h18"/></svg>',
-    moeda:'<svg viewBox="0 0 24 24"><circle cx="9.5" cy="13.5" r="5.5"/><path d="M13.5 6.6A5.5 5.5 0 1 1 15 17.4M9.5 11.5v4"/></svg>',
-    lapis:'<svg viewBox="0 0 24 24"><path d="M4 20l1-4.5L15.5 5a2.1 2.1 0 0 1 3 3L8 18.5zM13.5 7l3 3"/></svg>',
-    cad:'<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
-    lista:'<svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>',
-    soma:'<svg viewBox="0 0 24 24"><rect x="4" y="3" width="13" height="18" rx="2"/><path d="M7.5 7.5h6M7.5 11h6M14 14.5h6v6h-6zM16 17.5h2"/></svg>',
-    seta:'<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>'
+    nome:SV('<circle cx="12" cy="12" r="8.5" stroke-dasharray="2.2 2.2"/><path d="M12 11v5M12 8h.01"/>'),
+    desc:SV('<path d="M5 17.5c3.5 0 4-2.5 4-5.5H5.5V6.5H10V12M14 17.5c3.5 0 4-2.5 4-5.5h-3.5V6.5H19V12"/>'),
+    tipo:SV('<path d="M7 4h10v16l-5-4-5 4z"/>'),
+    saldo:SV('<rect x="3" y="7" width="18" height="12" rx="3"/><path d="M16 13h.01M3 10h18"/>'),
+    moeda:SV('<circle cx="9.5" cy="13.5" r="5.5"/><path d="M13.5 6.6A5.5 5.5 0 1 1 15 17.4M9.5 11.5v4"/>'),
+    cor:SV('<path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.2 0 1.8-.8 1.8-1.7 0-1.3-1.2-1.6-1.2-2.8 0-.9.7-1.5 1.7-1.5h2.2a4 4 0 0 0 4-4C20.5 6.6 16.7 3.5 12 3.5z"/><path d="M7.5 11.5h.01M9.5 7.8h.01M14 7.3h.01"/>'),
+    estrela:SV('<path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/>'),
+    limite:SV('<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M7 15h4"/>'),
+    pag:SV('<rect x="3" y="5" width="15" height="11" rx="2.5"/><path d="M7 19h12a2 2 0 0 0 2-2V9"/><path d="M8 10.5h5"/>'),
+    cal:SV('<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/>'),
+    lapis:SV('<path d="M4 20l1-4.5L15.5 5a2.1 2.1 0 0 1 3 3L8 18.5zM13.5 7l3 3"/>'),
+    cad:SV('<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
+    lista:SV('<path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>'),
+    soma:SV('<rect x="4" y="3" width="13" height="18" rx="2"/><path d="M7.5 7.5h6M7.5 11h6M14 14.5h6v6h-6zM16 17.5h2"/>'),
+    seta:SV('<path d="M9 6l6 6-6 6"/>'),
+    enviar:SV('<path d="M4 12l16-8-6 16-2.5-6.5z"/>'),
+    lupa:SV('<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>')
   };
-  let CONTA_ID = null, CD_EDIT = null;
-  function abreConta(id){ CONTA_ID = id; CD_EDIT = null; desenhaConta(); $("conta-det").hidden = false; document.body.classList.add("sheet-on"); $("conta-det").scrollTop = 0; }
+  // ícones genéricos (desenhos próprios) + logos do Itaú
+  const ICONES = {
+    "itau-azul":{nome:"Itaú (azul)"}, "itau-laranja":{nome:"Itaú (laranja)"},
+    carteira:{nome:"Carteira", svg:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M16 13h.01M3 10h18"/>'},
+    banco:{nome:"Banco", svg:'<path d="M3 9.5L12 4l9 5.5M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/>'},
+    cofre:{nome:"Cofre", svg:'<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5v1M12 14.5v1M6.5 19.5v1.5M17.5 19.5v1.5"/>'},
+    cartao:{nome:"Cartão", svg:'<rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19M6 15h4"/>'},
+    investimento:{nome:"Investimentos", svg:'<path d="M3 20h18M5 16l4.5-5 3.5 3 6-7"/><path d="M15 7h4v4"/>'},
+    cashback:{nome:"Cashback", svg:'<path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/><path d="M12 8v8M14 9.5h-3a1.5 1.5 0 0 0 0 3h2a1.5 1.5 0 0 1 0 3h-3"/>'},
+    pontos:{nome:"Pontos", svg:'<path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/>'},
+    outros:{nome:"Outros", svg:'<circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18" cy="12" r="1.3"/>'}
+  };
+  const TIPOS = [["Carteira","carteira"],["Bancos","banco"],["Cofre","cofre"],["Investimentos","investimento"],["Cartões","cartao"],["Cashback","cashback"],["Pontos","pontos"],["Outros","outros"]];
+  const CORES = ["#dfe5f1","#b9c6e3","#93a8d6","#6f8bc9","#4f72bf","#3c5ea8","#2f4a86","#24365f","#1b2335","#2bb673","#5cc9a7","#f2b705","#f2994a","#e5484d","#e0457b","#8a5cf6"];
+  const corPadrao = c => c.tipo==="cartao" ? (/uniclass/i.test(c.nome)?"#2f4a86":"#f2994a") : "#4f72bf";
+  function iconeHTML(c, tam){
+    const pf = prefConta(c.id), k = pf.icone || (c.tipo==="cartao" ? (/uniclass/i.test(c.nome)?"itau-azul":"itau-laranja") : "itau-azul");
+    if(k==="itau-azul"||k==="itau-laranja") return `<img src="${LOGO[k==="itau-azul"?"azul":"laranja"]}" alt="" width="${tam}" height="${tam}" style="width:${tam}px;height:${tam}px;border-radius:50%;display:block">`;
+    const i = ICONES[k]||ICONES.outros, cor = pf.cor || corPadrao(c);
+    return `<span class="ic-gen" style="width:${tam}px;height:${tam}px;background:${cor}">${SV(i.svg)}</span>`;
+  }
+  const nomeConta = c => prefConta(c.id).apelido || (c.tipo==="cartao" ? c.nome.replace(/^Itaú\s*/i,"Itaú ").replace(/\s+/g," ") : "Itaú");
+  function diasCartao(c){
+    const fs = (DADOS.faturas||[]).filter(f=>f.conta===c.nome && f.fechamento && !f.fechamento_previsto).sort((a,b)=>b.vencimento.localeCompare(a.vencimento));
+    const f = fs[0]; return f ? {fech:+f.fechamento.slice(8,10), venc:+f.vencimento.slice(8,10)} : null;
+  }
+  let CONTA_ID = null;
+  function abreConta(id){ CONTA_ID = id; desenhaConta(); $("conta-det").hidden = false; document.body.classList.add("sheet-on"); $("conta-det").scrollTop = 0; }
   function fechaConta(){ $("conta-det").hidden = true; document.body.classList.remove("sheet-on"); CONTA_ID = null; }
   function cdLinha(ic, rot, valor, campo){
-    const ed = campo && CD_EDIT===campo;
-    const dir = !campo ? `<span class="cd-acao cd-trava" title="Vem do Itaú">${ICD.cad}</span>`
-      : ed ? `<button type="button" class="cd-acao cd-ok" data-salva="${campo}" aria-label="Salvar">✓</button>`
-      : `<button type="button" class="cd-acao" data-edita="${campo}" aria-label="Editar ${rot}">${ICD.lapis}</button>`;
-    const val = ed ? `<input class="cd-in" id="cd-in" maxlength="${campo==="descricao"?120:40}" value="${esc(valor==="-"?"":valor)}">` : `<b>${valor}</b>`;
-    return `<div class="cd-row"><span class="cd-ic">${ic}</span><div class="cd-mid"><span>${rot}</span>${val}</div>${dir}</div>`;
+    const dir = campo ? `<button type="button" class="cd-acao" data-edita="${campo}" aria-label="Editar ${rot}">${ICD.lapis}</button>` : `<span class="cd-acao cd-trava" title="Vem do Itaú">${ICD.cad}</span>`;
+    return `<div class="cd-row"><span class="cd-ic">${ic}</span><div class="cd-mid"><span>${rot}</span>${valor}</div>${dir}</div>`;
   }
+  const secao = (tit, txt, corpo) => `<section class="cd-sec"><h3 class="cd-h">${tit}</h3><p class="cd-txt">${txt}</p>${corpo}</section>`;
   function desenhaConta(){
     const c = (DADOS.contas||[]).find(x=>x.id===CONTA_ID); if(!c) return fechaConta();
-    const pf = prefConta(c.id), dentro = contaNoSaldo(c);
-    $("cd-logo").innerHTML = logoImg("azul"); $("cd-nome").textContent = pf.apelido || "Itaú";
-    $("cd-det").innerHTML = cdLinha(ICD.nome,"Nome", esc(pf.apelido||"Itaú"), "apelido")
-      + cdLinha(ICD.desc,"Descrição", esc(pf.descricao||"-"), "descricao")
-      + cdLinha(ICD.tipo,"Tipo","Conta corrente · Itaú")
-      + cdLinha(ICD.saldo,"Saldo", brlS(saldoConta(c)))
-      + cdLinha(ICD.moeda,"Moeda","R$");
-    $("cd-acoes").innerHTML = `<button type="button" class="cd-row cd-btn" id="cd-mov"><span class="cd-ic">${ICD.lista}</span><div class="cd-mid"><b class="cd-b1">Ver movimentações</b></div><span class="cd-acao">${ICD.seta}</span></button>`
-      + `<div class="cd-row"><span class="cd-ic">${ICD.soma}</span><div class="cd-mid"><b class="cd-b1">Incluir no <strong>saldo geral</strong></b></div><button type="button" class="cd-sw" id="cd-sw" role="switch" aria-checked="${dentro}" aria-label="Incluir no saldo geral"><i></i></button></div>`;
-    $("cd-det").querySelectorAll("[data-edita]").forEach(b=>b.onclick=()=>{ CD_EDIT = b.dataset.edita; desenhaConta(); const i=$("cd-in"); if(i){ i.focus(); i.select(); } });
-    $("cd-det").querySelectorAll("[data-salva]").forEach(b=>b.onclick=()=>salvaConta({[b.dataset.salva]: $("cd-in").value}));
-    const inp = $("cd-in"); if(inp) inp.onkeydown = e=>{ if(e.key==="Enter") salvaConta({[CD_EDIT]: inp.value}); if(e.key==="Escape"){ CD_EDIT=null; desenhaConta(); } };
-    $("cd-sw").onclick = ()=>salvaConta({no_saldo: !dentro});
-    $("cd-mov").onclick = ()=>{ fechaConta(); FILT = {tipo:["receita","despesa","transf"],conta:[c.nome],cat:[],status:[]}; FILT_TXT = "as movimentações da conta "+(pf.apelido||"Itaú"); ORD="recentes"; $("busca").value=""; $("busca-bar").hidden = true; setView("lanc"); };
+    const pf = prefConta(c.id), cartao = c.tipo==="cartao", cor = pf.cor || corPadrao(c);
+    $("conta-det").style.setProperty("--cd-cor", cor);
+    $("cd-logo").innerHTML = iconeHTML(c, 84); $("cd-nome").textContent = nomeConta(c);
+    $("cd-sub").textContent = cartao ? "Detalhes do cartão" : "Detalhes da sua conta";
+    const bolaCor = `<i class="cd-bola" style="background:${cor}"></i>`, icMini = `<span class="cd-mini">${iconeHTML(c, 40)}</span>`;
+    let det = cdLinha(ICD.nome,"Nome",`<b>${esc(nomeConta(c))}</b>`,"apelido") + cdLinha(ICD.desc,"Descrição",`<b>${esc(pf.descricao||"-")}</b>`,"descricao");
+    if(cartao){
+      det += cdLinha(ICD.limite,"Limite",`<b>${c.limite!=null?brl(+c.limite):"—"}</b>`) + cdLinha(ICD.pag,"Conta de pagamento",`<b>Itaú · conta corrente</b>`);
+    } else {
+      det += cdLinha(ICD.tipo,"Tipo",`<b>${esc(pf.tipo||"Bancos")}</b>`,"tipo") + cdLinha(ICD.saldo,"Saldo",`<b>${brlS(saldoConta(c))}</b>`) + cdLinha(ICD.moeda,"Moeda",`<b>R$</b>`);
+    }
+    det += cdLinha(ICD.cor,"Cor",bolaCor,"cor") + cdLinha(ICD.estrela,"Ícone",icMini,"icone");
+    let html = secao("Detalhes", cartao ? "Toque no lápis para mudar nome, descrição, cor ou ícone. Limite e conta de pagamento vêm do Itaú." : "Toque no lápis para mudar nome, descrição, tipo, cor ou ícone. Saldo e moeda vêm direto do Itaú.", det);
+    if(cartao){
+      const d = diasCartao(c);
+      html += secao("Sobre datas","O fechamento e o vencimento definem em qual fatura cada compra entra. Os dias abaixo são os do último ciclo informado pelo Itaú.",
+        cdLinha(ICD.cal,"Dia de fechamento",`<b>${d?d.fech:"—"}</b>`) + cdLinha(ICD.cal,"Dia de pagamento",`<b>${d?d.venc:"—"}</b>`));
+      html += secao("Ações","Veja a fatura deste cartão com todas as compras do ciclo.",
+        `<button type="button" class="cd-row cd-btn" id="cd-mov"><span class="cd-ic">${ICD.lista}</span><div class="cd-mid"><b class="cd-b1">Ver fatura e movimentações</b></div><span class="cd-acao">${ICD.seta}</span></button>`);
+    } else {
+      const dentro = contaNoSaldo(c);
+      html += secao("Ações","Escolha se esta conta entra no saldo geral ou veja todas as movimentações dela no extrato.",
+        `<button type="button" class="cd-row cd-btn" id="cd-mov"><span class="cd-ic">${ICD.lista}</span><div class="cd-mid"><b class="cd-b1">Ver movimentações</b></div><span class="cd-acao">${ICD.seta}</span></button>`
+        + `<div class="cd-row"><span class="cd-ic">${ICD.soma}</span><div class="cd-mid"><b class="cd-b1">Incluir no <strong>saldo geral</strong></b></div><button type="button" class="cd-sw" id="cd-sw" role="switch" aria-checked="${dentro}" aria-label="Incluir no saldo geral"><i></i></button></div>`);
+    }
+    $("cd-corpo").innerHTML = html;
+    $("cd-corpo").querySelectorAll("[data-edita]").forEach(b=>b.onclick=()=>pergunta(b.dataset.edita, c));
+    const sw = $("cd-sw"); if(sw) sw.onclick = ()=>salvaConta({no_saldo: !contaNoSaldo(c)}, contaNoSaldo(c) ? "Conta retirada do saldo geral" : "Conta incluída no saldo geral");
+    $("cd-mov").onclick = ()=>{ fechaConta();
+      if(cartao){ CART_PEND = c.nome; CMES=null; setView("cartoes"); return; }
+      FILT = {tipo:["receita","despesa","transf"],conta:[c.nome],cat:[],status:[]}; FILT_TXT = "as movimentações da conta "+nomeConta(c); ORD="recentes"; $("busca").value=""; $("busca-bar").hidden = true; setView("lanc"); };
   }
-  async function salvaConta(mud){
+  // ----- telas de pergunta (editar um campo) -----
+  function abrePerg(tit, desc, corpo){ $("perg-tit").innerHTML = tit; $("perg-desc").textContent = desc||""; $("perg-desc").hidden = !desc; $("perg-corpo").innerHTML = corpo; $("perg").hidden = false; $("perg").scrollTop = 0; }
+  function fechaPerg(){ $("perg").hidden = true; }
+  function pergunta(campo, c){
+    const pf = prefConta(c.id), cor = pf.cor || corPadrao(c);
+    if(campo==="apelido" || campo==="descricao"){
+      const nome = campo==="apelido";
+      abrePerg(nome?"Qual é o <b>novo nome</b>?":"Qual é a <b>nova descrição</b>?", "", `<form class="perg-txt" id="perg-form"><input id="perg-in" maxlength="${nome?40:120}" autocomplete="off" placeholder="${nome?"Nome da conta":"Ex.: conta do salário"}" value="${esc(nome?nomeConta(c):(pf.descricao||""))}"><button type="submit" aria-label="Salvar">${ICD.enviar}</button></form>`);
+      setTimeout(()=>{ const i=$("perg-in"); i.focus(); i.select(); }, 60);
+      $("perg-form").onsubmit = e=>{ e.preventDefault(); salvaConta({[campo]: $("perg-in").value}, nome?"Nome atualizado com sucesso":"Descrição atualizada com sucesso"); };
+    } else if(campo==="tipo"){
+      abrePerg("Qual o <b>tipo</b> da conta?", "Isso só muda como a conta aparece para você; os dados continuam vindo do Itaú.",
+        `<div class="perg-lista">${TIPOS.map(([t,k])=>`<button type="button" class="perg-item" data-v="${t}"><span class="cd-ic">${SV(ICONES[k].svg)}</span><b>${t}</b>${(pf.tipo||"Bancos")===t?'<span class="perg-check">✓</span>':`<span class="cd-acao">${ICD.seta}</span>`}</button>`).join("")}</div>`);
+      $("perg-corpo").querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>salvaConta({tipo:b.dataset.v}, "Tipo atualizado com sucesso"));
+    } else if(campo==="cor"){
+      abrePerg("Qual é a <b>nova cor</b>?", "A cor aparece no fundo desta tela e nos ícones desenhados. Toque numa cor para escolher.",
+        `<div class="perg-cores">${CORES.map(h=>`<button type="button" class="perg-cor${h.toLowerCase()===cor.toLowerCase()?" on":""}" data-v="${h}" style="background:${h}" aria-label="Cor ${h}"></button>`).join("")}</div>
+         <label class="perg-livre">Outra cor <input type="color" id="perg-color" value="${cor}"></label>`);
+      $("perg-corpo").querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>salvaConta({cor:b.dataset.v}, "Cor atualizada com sucesso"));
+      $("perg-color").onchange = e=>salvaConta({cor:e.target.value}, "Cor atualizada com sucesso");
+    } else if(campo==="icone"){
+      const lista = q => Object.entries(ICONES).filter(([k,i])=>!q || i.nome.toLowerCase().includes(q)).map(([k,i])=>{
+        const fake = Object.assign({}, c), cur = pf.icone || (c.tipo==="cartao" ? (/uniclass/i.test(c.nome)?"itau-azul":"itau-laranja") : "itau-azul");
+        const vis = (k==="itau-azul"||k==="itau-laranja") ? `<img src="${LOGO[k==="itau-azul"?"azul":"laranja"]}" alt="" width="40" height="40" style="border-radius:50%;display:block">` : `<span class="ic-gen" style="width:40px;height:40px;background:${cor}">${SV(i.svg)}</span>`;
+        return `<button type="button" class="perg-item" data-v="${k}">${vis}<b>${i.nome}</b>${cur===k?'<span class="perg-check">✓</span>':`<span class="cd-acao">${ICD.seta}</span>`}</button>`; }).join("") || '<p class="perg-desc">Nenhum ícone com esse nome.</p>';
+      abrePerg("Qual é o <b>novo ícone</b>?", "Os logos do Itaú e alguns ícones desenhados para o kaixa.",
+        `<label class="perg-busca">${ICD.lupa}<input id="perg-q" placeholder="Pesquisar" autocomplete="off"></label><div class="perg-lista" id="perg-ics">${lista("")}</div>`);
+      const liga = ()=>$("perg-ics").querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>salvaConta({icone:b.dataset.v}, "Ícone atualizado com sucesso"));
+      liga(); $("perg-q").oninput = e=>{ $("perg-ics").innerHTML = lista(e.target.value.trim().toLowerCase()); liga(); };
+    }
+  }
+  let TOAST_T = null;
+  function toast(txt){ $("toast-txt").textContent = txt+" 🎉"; $("toast").hidden = false; clearTimeout(TOAST_T); TOAST_T = setTimeout(()=>{ $("toast").hidden = true; }, 3000); }
+  async function salvaConta(mud, msg){
     const c = (DADOS.contas||[]).find(x=>x.id===CONTA_ID); if(!c) return;
-    const pf = Object.assign({apelido:null, descricao:null, no_saldo:true}, prefConta(c.id), mud);
-    const par = {p_conta:c.id, p_apelido:pf.apelido||"", p_descricao:pf.descricao||"", p_no_saldo:pf.no_saldo!==false};
+    const pf = Object.assign({apelido:null, descricao:null, no_saldo:true, cor:null, icone:null, tipo:null}, prefConta(c.id), mud);
+    const par = {p_conta:c.id, p_apelido:pf.apelido||"", p_descricao:pf.descricao||"", p_no_saldo:pf.no_saldo!==false, p_cor:pf.cor||null, p_icone:pf.icone||"", p_tipo:pf.tipo||""};
     try{
-      const {error} = await sb.rpc("conta_pref_salvar", par); if(error) throw error;
-      DADOS.contas_pref = (DADOS.contas_pref||[]).filter(p=>p.conta!==c.id).concat([{conta:c.id, apelido:par.p_apelido||null, descricao:par.p_descricao||null, no_saldo:par.p_no_saldo}]);
-      CD_EDIT = null; render(); desenhaConta();
-    }catch(e){ aviso("Não foi possível salvar a conta. "+esc(String((e&&e.message)||e).slice(0,160)),"err"); }
+      const {error} = await sb.rpc("conta_pref_salvar2", par); if(error) throw error;
+      DADOS.contas_pref = (DADOS.contas_pref||[]).filter(p=>p.conta!==c.id).concat([{conta:c.id, apelido:par.p_apelido||null, descricao:par.p_descricao||null, no_saldo:par.p_no_saldo, cor:par.p_cor, icone:par.p_icone||null, tipo:par.p_tipo||null}]);
+      fechaPerg(); render(); desenhaConta(); if(msg) toast(msg);
+    }catch(e){ fechaPerg(); toast("Não foi possível salvar"); }
   }
   function nFiltros(F){ return F.tipo.length+F.conta.length+F.cat.length+F.status.length; }
   function renderTabela(){
@@ -2455,6 +2577,8 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     $("filtros").hidden = false; document.body.classList.add("sheet-on"); $("filtros").scrollTop = 0;
   }
   $("cd-voltar").addEventListener("click", ()=>fechaConta());
+  $("perg-voltar").addEventListener("click", fechaPerg);
+  $("toast-x").addEventListener("click", ()=>{ $("toast").hidden = true; });
   function fechaFiltros(){ $("filtros").hidden = true; document.body.classList.remove("sheet-on"); }
   function desenhaFiltros(){
     const todas = linhasExtrato();
