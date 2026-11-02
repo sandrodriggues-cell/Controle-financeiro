@@ -728,6 +728,34 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
 .vazio-box .vazio-ic{width:116px;height:108px;margin-bottom:22px}
 .vazio-box b{font-size:18px;color:var(--fg)}
 .vazio-box span{font-size:13.5px;line-height:1.5;color:var(--muted)}
+
+/* Detalhe da conta */
+.conta-det{background:linear-gradient(to bottom,var(--bg) 0,var(--bg) 30%,color-mix(in srgb,#c8d3ea 55%,var(--bg)) 100%);padding-left:12px;padding-right:12px}
+.cd-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;margin:6px 0 22px}
+.cd-hero img{width:84px;height:84px;border-radius:50%;display:block;margin-bottom:10px}
+.cd-hero h2{margin:0;font:700 24px/1.2 var(--f-body);letter-spacing:-.01em;color:var(--fg)}
+.cd-hero p{margin:0;font-size:14px;color:var(--muted)}
+.cd-sec{background:var(--card);border-radius:22px;box-shadow:var(--sh);padding:22px 20px 6px;margin-bottom:16px}
+.cd-h{margin:0;padding-bottom:16px;border-bottom:1px solid var(--hair);font:700 16px var(--f-body);color:var(--fg)}
+.cd-txt{margin:16px 0 6px;font-size:14px;line-height:1.6;color:var(--muted)}
+.cd-row{display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--hair);width:100%;background:none;border-left:0;border-right:0;border-top:0;text-align:left;font:inherit;color:inherit}
+.cd-row:last-child{border-bottom:0}
+.cd-btn{cursor:pointer}
+.cd-ic{width:46px;height:46px;border-radius:50%;background:var(--soft-2,#eef0f3);display:grid;place-items:center;color:var(--fg)}
+.cd-ic svg,.cd-acao svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.cd-mid{display:flex;flex-direction:column;gap:3px;min-width:0}
+.cd-mid span{font-size:13px;color:var(--muted)}
+.cd-mid b{font-size:15.5px;font-weight:700;color:var(--fg);overflow-wrap:anywhere}
+.cd-mid .cd-b1{font-weight:500}
+.cd-mid .cd-b1 strong{font-weight:700}
+.cd-acao{width:38px;height:38px;display:grid;place-items:center;border:0;background:none;color:var(--fg);cursor:pointer;border-radius:50%}
+.cd-trava{color:var(--muted);cursor:default}
+.cd-ok{background:var(--fg);color:var(--bg);font-weight:700;font-size:16px}
+.cd-in{font:600 15.5px var(--f-body);border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);color:var(--fg);width:100%;box-sizing:border-box}
+.cd-sw{width:46px;height:26px;border-radius:999px;border:0;background:var(--soft-2,#e3e5e9);position:relative;cursor:pointer;transition:background .2s}
+.cd-sw i{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s}
+.cd-sw[aria-checked="true"]{background:#2b2b33}
+.cd-sw[aria-checked="true"] i{left:23px}
 </style>
 </head>
 <body>
@@ -1060,7 +1088,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   </div>
 
   <div id="v-mais" class="vstack" hidden>
-    <p class="sub versao" style="text-align:center;margin:0">Versão do app: 02/11/2026 · ilustração no vazio</p>
+    <p class="sub versao" style="text-align:center;margin:0">Versão do app: 02/11/2026 · detalhe da conta</p>
     <div class="mais-grid">
       <button type="button" class="tile" id="m-sim"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="2.5" width="15" height="19" rx="2.5"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg><b>Simulador</b><span>Projeção de patrimônio</span></button>
       <button type="button" class="tile" id="m-atu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg><b>Atualizar dados</b><span>Buscar a última carga</span></button>
@@ -1070,6 +1098,12 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     </div>
   </div>
 
+  <div class="sheet conta-det" id="conta-det" hidden role="dialog" aria-modal="true" aria-labelledby="cd-nome">
+    <button type="button" class="ic-round sheet-back" id="cd-voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 5l-7 7 7 7"/></svg></button>
+    <div class="cd-hero"><span id="cd-logo"></span><h2 id="cd-nome">—</h2><p>Detalhes da sua conta</p></div>
+    <section class="cd-sec"><h3 class="cd-h">Detalhes</h3><p class="cd-txt">Toque no lápis para mudar o nome ou a descrição. Saldo, tipo e moeda vêm direto do Itaú e não podem ser alterados aqui.</p><div id="cd-det"></div></section>
+    <section class="cd-sec"><h3 class="cd-h">Ações</h3><p class="cd-txt">Escolha se esta conta entra no saldo geral ou veja todas as movimentações dela no extrato.</p><div id="cd-acoes"></div></section>
+  </div>
   <div class="sheet" id="filtros" hidden role="dialog" aria-modal="true" aria-labelledby="filt-tit">
     <button type="button" class="ic-round sheet-back" id="filt-voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 5l-7 7 7 7"/></svg></button>
     <h2 class="sheet-tit" id="filt-tit">Aplique filtros</h2>
@@ -1288,9 +1322,12 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     const bl = $("notif-limpar"); if(bl) bl.onclick = limparNotif;
   }
 
+  const prefConta = id => (DADOS.contas_pref||[]).find(p=>p.conta===id) || {};
+  const contaNoSaldo = c => prefConta(c.id).no_saldo !== false;
   function saldoInfo(){
-    const correntes = DADOS.contas.filter(c=>c.tipo!=="cartao");
-    const sd = DADOS.saldos || null;
+    const fora = new Set((DADOS.contas||[]).filter(c=>c.tipo!=="cartao" && !contaNoSaldo(c)).map(c=>c.nome));
+    const correntes = DADOS.contas.filter(c=>c.tipo!=="cartao" && !fora.has(c.nome));
+    const sd = DADOS.saldos ? DADOS.saldos.filter(s=>!fora.has(s.nome)) : null;
     const saldo = sd ? sd.reduce((a,s)=>a+(+s.saldo_atual||0),0) : correntes.reduce((a,c)=>a+(+c.saldo||0),0);
     const ajuste = sd ? sd.reduce((a,s)=>a+(+s.ajuste_notificacoes||0),0) : 0;
     const qtdN = sd ? sd.reduce((a,s)=>a+(+s.qtd_notificacoes||0),0) : 0;
@@ -1744,8 +1781,10 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     $("bg-agenda").querySelectorAll("[data-ag]").forEach(el=>el.onclick=()=>filtroAgenda(el.dataset.ag));
     // Suas contas
     const corr = (DADOS.contas||[]).filter(c=>c.tipo!=="cartao");
-    $("bg-contas").innerHTML = corr.map(c=>linhaBg(logoImg("azul"),"logo","Itaú", brlS(si.saldo), si.saldo<0?"neg":"pos", `Conta corrente${si.qtdN?` · inclui ${si.qtdN} notificação`:""}`)).join("")
+    $("bg-contas").innerHTML = corr.map(c=>{ const pf = prefConta(c.id), dentro = contaNoSaldo(c), sc = saldoConta(c);
+        return linhaBg(logoImg("azul"),"logo", esc(pf.apelido||"Itaú"), brlS(sc), sc<0?"neg":"pos", esc(pf.descricao||"Conta corrente") + (dentro?"":" · fora do saldo geral"), "", `data-conta="${esc(c.id)}"`); }).join("")
       + `<div class="bg-tot"><span>Total</span><b class="num">${brl(si.saldo)}</b></div>`;
+    $("bg-contas").querySelectorAll("[data-conta]").forEach(el=>el.onclick=()=>abreConta(el.dataset.conta));
     // Seus cartões
     const cards = (DADOS.contas||[]).filter(c=>c.tipo==="cartao");
     let totCart = 0;
@@ -2314,6 +2353,57 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     <text x="42" y="138" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="40" fill="#fff">%</text>
     <circle cx="203" cy="152" r="7" fill="none" stroke="#24242a" stroke-width="2.8"/>
   </svg>`;
+  function saldoConta(c){ const s = (DADOS.saldos||[]).find(x=>x.nome===c.nome); return s ? +s.saldo_atual : +c.saldo||0; }
+  const ICD = {
+    nome:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" stroke-dasharray="2.2 2.2"/><path d="M12 11v5M12 8h.01"/></svg>',
+    desc:'<svg viewBox="0 0 24 24"><path d="M5 17.5c3.5 0 4-2.5 4-5.5H5.5V6.5H10V12M14 17.5c3.5 0 4-2.5 4-5.5h-3.5V6.5H19V12"/></svg>',
+    tipo:'<svg viewBox="0 0 24 24"><path d="M7 4h10v16l-5-4-5 4z"/></svg>',
+    saldo:'<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="3"/><path d="M16 13h.01M3 10h18"/></svg>',
+    moeda:'<svg viewBox="0 0 24 24"><circle cx="9.5" cy="13.5" r="5.5"/><path d="M13.5 6.6A5.5 5.5 0 1 1 15 17.4M9.5 11.5v4"/></svg>',
+    lapis:'<svg viewBox="0 0 24 24"><path d="M4 20l1-4.5L15.5 5a2.1 2.1 0 0 1 3 3L8 18.5zM13.5 7l3 3"/></svg>',
+    cad:'<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+    lista:'<svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>',
+    soma:'<svg viewBox="0 0 24 24"><rect x="4" y="3" width="13" height="18" rx="2"/><path d="M7.5 7.5h6M7.5 11h6M14 14.5h6v6h-6zM16 17.5h2"/></svg>',
+    seta:'<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>'
+  };
+  let CONTA_ID = null, CD_EDIT = null;
+  function abreConta(id){ CONTA_ID = id; CD_EDIT = null; desenhaConta(); $("conta-det").hidden = false; document.body.classList.add("sheet-on"); $("conta-det").scrollTop = 0; }
+  function fechaConta(){ $("conta-det").hidden = true; document.body.classList.remove("sheet-on"); CONTA_ID = null; }
+  function cdLinha(ic, rot, valor, campo){
+    const ed = campo && CD_EDIT===campo;
+    const dir = !campo ? `<span class="cd-acao cd-trava" title="Vem do Itaú">${ICD.cad}</span>`
+      : ed ? `<button type="button" class="cd-acao cd-ok" data-salva="${campo}" aria-label="Salvar">✓</button>`
+      : `<button type="button" class="cd-acao" data-edita="${campo}" aria-label="Editar ${rot}">${ICD.lapis}</button>`;
+    const val = ed ? `<input class="cd-in" id="cd-in" maxlength="${campo==="descricao"?120:40}" value="${esc(valor==="-"?"":valor)}">` : `<b>${valor}</b>`;
+    return `<div class="cd-row"><span class="cd-ic">${ic}</span><div class="cd-mid"><span>${rot}</span>${val}</div>${dir}</div>`;
+  }
+  function desenhaConta(){
+    const c = (DADOS.contas||[]).find(x=>x.id===CONTA_ID); if(!c) return fechaConta();
+    const pf = prefConta(c.id), dentro = contaNoSaldo(c);
+    $("cd-logo").innerHTML = logoImg("azul"); $("cd-nome").textContent = pf.apelido || "Itaú";
+    $("cd-det").innerHTML = cdLinha(ICD.nome,"Nome", esc(pf.apelido||"Itaú"), "apelido")
+      + cdLinha(ICD.desc,"Descrição", esc(pf.descricao||"-"), "descricao")
+      + cdLinha(ICD.tipo,"Tipo","Conta corrente · Itaú")
+      + cdLinha(ICD.saldo,"Saldo", brlS(saldoConta(c)))
+      + cdLinha(ICD.moeda,"Moeda","R$");
+    $("cd-acoes").innerHTML = `<button type="button" class="cd-row cd-btn" id="cd-mov"><span class="cd-ic">${ICD.lista}</span><div class="cd-mid"><b class="cd-b1">Ver movimentações</b></div><span class="cd-acao">${ICD.seta}</span></button>`
+      + `<div class="cd-row"><span class="cd-ic">${ICD.soma}</span><div class="cd-mid"><b class="cd-b1">Incluir no <strong>saldo geral</strong></b></div><button type="button" class="cd-sw" id="cd-sw" role="switch" aria-checked="${dentro}" aria-label="Incluir no saldo geral"><i></i></button></div>`;
+    $("cd-det").querySelectorAll("[data-edita]").forEach(b=>b.onclick=()=>{ CD_EDIT = b.dataset.edita; desenhaConta(); const i=$("cd-in"); if(i){ i.focus(); i.select(); } });
+    $("cd-det").querySelectorAll("[data-salva]").forEach(b=>b.onclick=()=>salvaConta({[b.dataset.salva]: $("cd-in").value}));
+    const inp = $("cd-in"); if(inp) inp.onkeydown = e=>{ if(e.key==="Enter") salvaConta({[CD_EDIT]: inp.value}); if(e.key==="Escape"){ CD_EDIT=null; desenhaConta(); } };
+    $("cd-sw").onclick = ()=>salvaConta({no_saldo: !dentro});
+    $("cd-mov").onclick = ()=>{ fechaConta(); FILT = {tipo:["receita","despesa","transf"],conta:[c.nome],cat:[],status:[]}; FILT_TXT = "as movimentações da conta "+(pf.apelido||"Itaú"); ORD="recentes"; $("busca").value=""; $("busca-bar").hidden = true; setView("lanc"); };
+  }
+  async function salvaConta(mud){
+    const c = (DADOS.contas||[]).find(x=>x.id===CONTA_ID); if(!c) return;
+    const pf = Object.assign({apelido:null, descricao:null, no_saldo:true}, prefConta(c.id), mud);
+    const par = {p_conta:c.id, p_apelido:pf.apelido||"", p_descricao:pf.descricao||"", p_no_saldo:pf.no_saldo!==false};
+    try{
+      const {error} = await sb.rpc("conta_pref_salvar", par); if(error) throw error;
+      DADOS.contas_pref = (DADOS.contas_pref||[]).filter(p=>p.conta!==c.id).concat([{conta:c.id, apelido:par.p_apelido||null, descricao:par.p_descricao||null, no_saldo:par.p_no_saldo}]);
+      CD_EDIT = null; render(); desenhaConta();
+    }catch(e){ aviso("Não foi possível salvar a conta. "+esc(String((e&&e.message)||e).slice(0,160)),"err"); }
+  }
   function nFiltros(F){ return F.tipo.length+F.conta.length+F.cat.length+F.status.length; }
   function renderTabela(){
     const rows = filtrar(linhasExtrato(), FILT);
@@ -2364,6 +2454,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     fechaExt(); FILT_TMP = JSON.parse(JSON.stringify(FILT)); desenhaFiltros();
     $("filtros").hidden = false; document.body.classList.add("sheet-on"); $("filtros").scrollTop = 0;
   }
+  $("cd-voltar").addEventListener("click", ()=>fechaConta());
   function fechaFiltros(){ $("filtros").hidden = true; document.body.classList.remove("sheet-on"); }
   function desenhaFiltros(){
     const todas = linhasExtrato();
