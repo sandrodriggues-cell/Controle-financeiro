@@ -723,7 +723,8 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
 .f-banner-bar{flex:none;width:5px;align-self:stretch;border-radius:4px;background:#bfdcff}
 .f-banner p{flex:1;margin:0;font-size:14px;line-height:1.5;color:var(--muted)}
 .f-banner-x{flex:none;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;background:var(--soft-2,#eceef1);color:var(--fg);font:500 14px var(--f-body,inherit);padding:11px 16px;cursor:pointer}
-.vazio-box{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:150px 20px 40px}
+.vazio-box{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:90px 20px 40px}
+.vazio-box .vazio-img{width:min(280px,78vw);height:auto;mix-blend-mode:multiply;margin-bottom:18px}
 .vazio-box .vazio-ic{width:116px;height:108px;margin-bottom:22px}
 .vazio-box b{font-size:18px;color:var(--fg)}
 .vazio-box span{font-size:13.5px;line-height:1.5;color:var(--muted)}
@@ -1059,7 +1060,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   </div>
 
   <div id="v-mais" class="vstack" hidden>
-    <p class="sub versao" style="text-align:center;margin:0">Versão do app: 02/11/2026 · agenda abre o extrato</p>
+    <p class="sub versao" style="text-align:center;margin:0">Versão do app: 02/11/2026 · ilustração no vazio</p>
     <div class="mais-grid">
       <button type="button" class="tile" id="m-sim"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="2.5" width="15" height="19" rx="2.5"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg><b>Simulador</b><span>Projeção de patrimônio</span></button>
       <button type="button" class="tile" id="m-atu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg><b>Atualizar dados</b><span>Buscar a última carga</span></button>
@@ -2323,7 +2324,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     const fl = $("f-limpa"); if(fl) fl.onclick = limpaFiltros;
     const banner = FILT_TXT && n ? `<div class="f-banner"><span class="f-banner-bar"></span><p>Filtro ativo: mostrando ${FILT_TXT}.</p><button type="button" class="f-banner-x" id="f-banner-x"><span aria-hidden="true">✕</span> Limpar</button></div>` : "";
     const ligaBanner = () => { const bx = $("f-banner-x"); if(bx) bx.onclick = limpaFiltros; };
-    if(!rows.length){ $("tabela").innerHTML = banner + (n||q ? `<div class="vazio-box">${FUNIL}<b>Nada por aqui</b><span>Nenhum resultado encontrado<br>para os filtros selecionados.</span></div>` : '<p class="sub vazio">Nenhum lançamento neste mês.</p>'); ligaBanner(); return; }
+    if(!rows.length){ $("tabela").innerHTML = banner + (n||q ? `<div class="vazio-box"><img class="vazio-img" src="vazio.jpg" alt="" width="456" height="311"><b>Nada por aqui</b><span>Nenhum resultado encontrado<br>para os filtros selecionados.</span></div>` : '<p class="sub vazio">Nenhum lançamento neste mês.</p>'); ligaBanner(); return; }
     if(ORD==="maior" || ORD==="menor"){
       const ord = rows.slice().sort((a,b)=> ORD==="maior" ? b.valor-a.valor : a.valor-b.valor);
       $("tabela").innerHTML = banner + `<section class="dia"><h3 class="dia-h">Por valor, <b>${ORD==="maior"?"maior primeiro":"menor primeiro"}</b></h3>${ord.map(itemHTML).join("")}${totHTML(somaRows(ord))}</section>`;
