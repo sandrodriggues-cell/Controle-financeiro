@@ -790,6 +790,37 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
 .toast-ic{flex:none;width:30px;height:30px;border-radius:50%;background:#2bb673;color:#fff;display:grid;place-items:center;font-weight:700}
 .toast p{flex:1;margin:0;font-size:14px;color:var(--fg)}
 .toast button{flex:none;border:0;background:none;font-size:16px;color:var(--muted);cursor:pointer;width:32px;height:32px}
+
+/* Proporções no padrão do vídeo: voltar maior, ícone grande, título */
+.conta-det .sheet-back,.perg .sheet-back{width:58px;height:58px;margin:6px 0 10px;box-shadow:0 6px 22px rgba(17,24,39,.08)}
+.conta-det .sheet-back svg,.perg .sheet-back svg{width:24px;height:24px;stroke-width:2}
+.cd-hero{margin:4px 0 26px;gap:8px}
+.cd-hero img,.cd-hero .ic-gen{width:92px!important;height:92px!important;margin-bottom:14px}
+.cd-hero h2{font-size:23px}
+.perg-tit{margin-top:34px}
+.fat-det{z-index:65}
+.fd-graf{margin:-6px -4px 14px}
+.fg{width:100%;height:auto;display:block}
+.fg-l{stroke:color-mix(in srgb,var(--fg) 10%,transparent);stroke-width:1}
+.fg-y{font:10px var(--f-body);fill:var(--muted);text-anchor:end}
+.fg-x{font:10.5px var(--f-body);fill:var(--muted);text-anchor:middle}
+.fg-ln{fill:none;stroke:var(--cd-cor,#4f72bf);stroke-width:2.2;stroke-linejoin:round}
+.fg-p{cursor:pointer}
+.fg-p circle{fill:var(--bg);stroke:var(--cd-cor,#4f72bf);stroke-width:2.5}
+.fg-p.on circle{fill:var(--cd-cor,#4f72bf)}
+.fg-p.on .fg-x{fill:var(--fg);font-weight:700}
+.fd-mes{margin-bottom:16px;min-height:62px;grid-template-columns:52px minmax(0,1fr) 52px}
+.fd-mes .mes-c{font-size:16px;font-weight:600}
+.fd-mes .mes-arr:disabled{opacity:.3}
+.fd-it{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--hair)}
+.fd-it:last-of-type{border-bottom:0}
+.fd-ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.fd-ic svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fd-it .cd-mid b{font-size:14px;font-weight:600}
+.fd-it .cd-mid span{font-size:12px}
+.fd-it > b{font-size:14px;white-space:nowrap}
+.fd-tot{padding:14px 0 16px!important;border-top:1px solid var(--hair)}
+.fd-parc{font-size:12px;font-weight:600;color:#b45309;background:#fff4e5;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:middle}
 </style>
 </head>
 <body>
@@ -1122,7 +1153,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
   </div>
 
   <div id="v-mais" class="vstack" hidden>
-    <p class="sub versao" style="text-align:center;margin:0">Versão do app: 02/11/2026 · detalhes e edição</p>
+    <p class="sub versao" style="text-align:center;margin:0">Versão do app: 02/11/2026 · fatura e logos de bancos</p>
     <div class="mais-grid">
       <button type="button" class="tile" id="m-sim"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="2.5" width="15" height="19" rx="2.5"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg><b>Simulador</b><span>Projeção de patrimônio</span></button>
       <button type="button" class="tile" id="m-atu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg><b>Atualizar dados</b><span>Buscar a última carga</span></button>
@@ -1136,6 +1167,13 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     <button type="button" class="ic-round sheet-back" id="cd-voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 5l-7 7 7 7"/></svg></button>
     <div class="cd-hero"><span id="cd-logo"></span><h2 id="cd-nome">—</h2><p id="cd-sub">Detalhes da sua conta</p></div>
     <div id="cd-corpo"></div>
+  </div>
+  <div class="sheet conta-det fat-det" id="fat-det" hidden role="dialog" aria-modal="true" aria-labelledby="fd-tit">
+    <button type="button" class="ic-round sheet-back" id="fd-voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 5l-7 7 7 7"/></svg></button>
+    <div class="cd-hero"><span id="fd-logo"></span><h2 id="fd-tit">—</h2><p id="fd-sub"></p></div>
+    <div class="fd-graf" id="fd-graf"></div>
+    <div class="mes-pill fd-mes"><button type="button" class="mes-arr" id="fd-ant" aria-label="Fatura anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><span class="mes-c" id="fd-mes">—</span><button type="button" class="mes-arr" id="fd-prox" aria-label="Próxima fatura"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
+    <div id="fd-corpo"></div>
   </div>
   <div class="sheet perg" id="perg" hidden role="dialog" aria-modal="true" aria-labelledby="perg-tit">
     <button type="button" class="ic-round sheet-back" id="perg-voltar" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 5l-7 7 7 7"/></svg></button>
@@ -2427,12 +2465,14 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     pontos:{nome:"Pontos", svg:'<path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/>'},
     outros:{nome:"Outros", svg:'<circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18" cy="12" r="1.3"/>'}
   };
+  const BANCOS = {"bb":{nome:"Banco do Brasil",img:"bancos/bb.png"},"bnb":{nome:"Banco do Nordeste",img:"bancos/bnb.png"},"pan":{nome:"Banco Pan",img:"bancos/pan.png"},"banrisul":{nome:"Banrisul",img:"bancos/banrisul.png"},"bmg":{nome:"BMG",img:"bancos/bmg.png"},"bradesco":{nome:"Bradesco",img:"bancos/bradesco.png"},"brb":{nome:"BRB",img:"bancos/brb.png"},"btg":{nome:"BTG Pactual",img:"bancos/btg.png"},"bv":{nome:"BV",img:"bancos/bv.png"},"c6":{nome:"C6 Bank",img:"bancos/c6.png"},"caixa":{nome:"Caixa",img:"bancos/caixa.png"},"cora":{nome:"Cora",img:"bancos/cora.png"},"daycoval":{nome:"Daycoval",img:"bancos/daycoval.png"},"efi":{nome:"Efí Bank",img:"bancos/efi.png"},"ifood":{nome:"iFood Pago",img:"bancos/ifood.png"},"infinitepay":{nome:"InfinitePay",img:"bancos/infinitepay.png"},"inter":{nome:"Inter",img:"bancos/inter.png"},"magalu":{nome:"MagaluPay",img:"bancos/magalu.png"},"mercadopago":{nome:"Mercado Pago",img:"bancos/mercadopago.png"},"mercantil":{nome:"Mercantil",img:"bancos/mercantil.png"},"neon":{nome:"Neon",img:"bancos/neon.png"},"nubank":{nome:"Nubank",img:"bancos/nubank.png"},"original":{nome:"Original",img:"bancos/original.png"},"pagbank":{nome:"PagBank",img:"bancos/pagbank.png"},"picpay":{nome:"PicPay",img:"bancos/picpay.png"},"recargapay":{nome:"RecargaPay",img:"bancos/recargapay.png"},"safra":{nome:"Safra",img:"bancos/safra.png"},"santander":{nome:"Santander",img:"bancos/santander.png"},"sicoob":{nome:"Sicoob",img:"bancos/sicoob.png"},"sicredi":{nome:"Sicredi",img:"bancos/sicredi.png"},"stone":{nome:"Stone",img:"bancos/stone.png"},"unicred":{nome:"Unicred",img:"bancos/unicred.png"},"xp":{nome:"XP Investimentos",img:"bancos/xp.png"}};
   const TIPOS = [["Carteira","carteira"],["Bancos","banco"],["Cofre","cofre"],["Investimentos","investimento"],["Cartões","cartao"],["Cashback","cashback"],["Pontos","pontos"],["Outros","outros"]];
   const CORES = ["#dfe5f1","#b9c6e3","#93a8d6","#6f8bc9","#4f72bf","#3c5ea8","#2f4a86","#24365f","#1b2335","#2bb673","#5cc9a7","#f2b705","#f2994a","#e5484d","#e0457b","#8a5cf6"];
   const corPadrao = c => c.tipo==="cartao" ? (/uniclass/i.test(c.nome)?"#2f4a86":"#f2994a") : "#4f72bf";
   function iconeHTML(c, tam){
     const pf = prefConta(c.id), k = pf.icone || (c.tipo==="cartao" ? (/uniclass/i.test(c.nome)?"itau-azul":"itau-laranja") : "itau-azul");
     if(k==="itau-azul"||k==="itau-laranja") return `<img src="${LOGO[k==="itau-azul"?"azul":"laranja"]}" alt="" width="${tam}" height="${tam}" style="width:${tam}px;height:${tam}px;border-radius:50%;display:block">`;
+    if(BANCOS[k]) return `<img src="${BANCOS[k].img}" alt="" width="${tam}" height="${tam}" style="width:${tam}px;height:${tam}px;border-radius:50%;display:block">`;
     const i = ICONES[k]||ICONES.outros, cor = pf.cor || corPadrao(c);
     return `<span class="ic-gen" style="width:${tam}px;height:${tam}px;background:${cor}">${SV(i.svg)}</span>`;
   }
@@ -2469,7 +2509,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
       html += secao("Sobre datas","O fechamento e o vencimento definem em qual fatura cada compra entra. Os dias abaixo são os do último ciclo informado pelo Itaú.",
         cdLinha(ICD.cal,"Dia de fechamento",`<b>${d?d.fech:"—"}</b>`) + cdLinha(ICD.cal,"Dia de pagamento",`<b>${d?d.venc:"—"}</b>`));
       html += secao("Ações","Veja a fatura deste cartão com todas as compras do ciclo.",
-        `<button type="button" class="cd-row cd-btn" id="cd-mov"><span class="cd-ic">${ICD.lista}</span><div class="cd-mid"><b class="cd-b1">Ver fatura e movimentações</b></div><span class="cd-acao">${ICD.seta}</span></button>`);
+        `<button type="button" class="cd-row cd-btn" id="cd-mov"><span class="cd-ic">${ICD.lista}</span><div class="cd-mid"><b class="cd-b1">Ver faturas</b></div><span class="cd-acao">${ICD.seta}</span></button>`);
     } else {
       const dentro = contaNoSaldo(c);
       html += secao("Ações","Escolha se esta conta entra no saldo geral ou veja todas as movimentações dela no extrato.",
@@ -2480,7 +2520,7 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
     $("cd-corpo").querySelectorAll("[data-edita]").forEach(b=>b.onclick=()=>pergunta(b.dataset.edita, c));
     const sw = $("cd-sw"); if(sw) sw.onclick = ()=>salvaConta({no_saldo: !contaNoSaldo(c)}, contaNoSaldo(c) ? "Conta retirada do saldo geral" : "Conta incluída no saldo geral");
     $("cd-mov").onclick = ()=>{ fechaConta();
-      if(cartao){ CART_PEND = c.nome; CMES=null; setView("cartoes"); return; }
+      if(cartao){ $("conta-det").hidden = false; document.body.classList.add("sheet-on"); CONTA_ID = c.id; abreFatura(c.id); return; }
       FILT = {tipo:["receita","despesa","transf"],conta:[c.nome],cat:[],status:[]}; FILT_TXT = "as movimentações da conta "+nomeConta(c); ORD="recentes"; $("busca").value=""; $("busca-bar").hidden = true; setView("lanc"); };
   }
   // ----- telas de pergunta (editar um campo) -----
@@ -2504,16 +2544,86 @@ body.topo-on::before{content:"";position:absolute;left:0;right:0;top:0;height:46
       $("perg-corpo").querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>salvaConta({cor:b.dataset.v}, "Cor atualizada com sucesso"));
       $("perg-color").onchange = e=>salvaConta({cor:e.target.value}, "Cor atualizada com sucesso");
     } else if(campo==="icone"){
-      const lista = q => Object.entries(ICONES).filter(([k,i])=>!q || i.nome.toLowerCase().includes(q)).map(([k,i])=>{
-        const fake = Object.assign({}, c), cur = pf.icone || (c.tipo==="cartao" ? (/uniclass/i.test(c.nome)?"itau-azul":"itau-laranja") : "itau-azul");
-        const vis = (k==="itau-azul"||k==="itau-laranja") ? `<img src="${LOGO[k==="itau-azul"?"azul":"laranja"]}" alt="" width="40" height="40" style="border-radius:50%;display:block">` : `<span class="ic-gen" style="width:40px;height:40px;background:${cor}">${SV(i.svg)}</span>`;
-        return `<button type="button" class="perg-item" data-v="${k}">${vis}<b>${i.nome}</b>${cur===k?'<span class="perg-check">✓</span>':`<span class="cd-acao">${ICD.seta}</span>`}</button>`; }).join("") || '<p class="perg-desc">Nenhum ícone com esse nome.</p>';
-      abrePerg("Qual é o <b>novo ícone</b>?", "Os logos do Itaú e alguns ícones desenhados para o kaixa.",
+      const padrao = c.tipo==="cartao" ? (/uniclass/i.test(c.nome)?"itau-azul":"itau-laranja") : "itau-azul", cur = pf.icone || padrao;
+      const visIc = (k, tam) => { const f = Object.assign({}, c); const save = DADOS.contas_pref; DADOS.contas_pref = [{conta:c.id, icone:k, cor:pf.cor}]; const h = iconeHTML(f, tam); DADOS.contas_pref = save; return h; };
+      const todos = [["__padrao","Ícone padrão"],["itau-azul","Itaú"],["itau-laranja","Itaú (laranja)"]].concat(Object.entries(BANCOS).map(([k,b])=>[k,b.nome]), Object.entries(ICONES).filter(([k])=>!k.startsWith("itau")).map(([k,i])=>[k,i.nome+" (ícone)"]));
+      const lista = q => todos.filter(([k,n])=>!q || n.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").includes(q)).map(([k,n])=>{
+        const kk = k==="__padrao" ? padrao : k, sel = k==="__padrao" ? !pf.icone : (pf.icone===k);
+        return `<button type="button" class="perg-item" data-v="${k}">${visIc(kk,42)}<b>${esc(n)}</b>${sel?'<span class="perg-check">✓</span>':`<span class="cd-acao">${ICD.seta}</span>`}</button>`; }).join("") || '<p class="perg-desc">Nenhum ícone com esse nome.</p>';
+      abrePerg("Qual é o <b>novo ícone</b>?", "Escolha o banco, a corretora ou a carteira digital. Toque para aplicar.",
         `<label class="perg-busca">${ICD.lupa}<input id="perg-q" placeholder="Pesquisar" autocomplete="off"></label><div class="perg-lista" id="perg-ics">${lista("")}</div>`);
-      const liga = ()=>$("perg-ics").querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>salvaConta({icone:b.dataset.v}, "Ícone atualizado com sucesso"));
-      liga(); $("perg-q").oninput = e=>{ $("perg-ics").innerHTML = lista(e.target.value.trim().toLowerCase()); liga(); };
+      const liga = ()=>$("perg-ics").querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>salvaConta({icone: b.dataset.v==="__padrao" ? null : b.dataset.v}, "Ícone atualizado com sucesso"));
+      liga(); $("perg-q").oninput = e=>{ $("perg-ics").innerHTML = lista(e.target.value.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")); liga(); };
     }
   }
+  // ----- página da fatura (cartão) -----
+  let FD = {id:null, venc:null};
+  const valFat = f => (f.status!=="aberta" && f.valor_oficial!=null) ? +f.valor_oficial : +f.soma_itens;
+  const MESES_L = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+  const MESES_C = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+  const fatsCartao = c => (DADOS.faturas||[]).filter(f=>f.conta===c.nome).sort((a,b)=>a.vencimento.localeCompare(b.vencimento));
+  function abreFatura(id){
+    const c = (DADOS.contas||[]).find(x=>x.id===id); if(!c) return;
+    const fs = fatsCartao(c); const ab = fs.find(f=>f.status==="aberta") || fs[fs.length-1];
+    FD = {id, venc: ab ? ab.vencimento : null};
+    desenhaFatura(); $("fat-det").hidden = false; $("fat-det").scrollTop = 0;
+  }
+  const lojaLimpa = d => String(d||"").replace(/\s*(PIRAPORA|SAO\s?PAULO|PAULO|SAO|BELO\s?HORIZONTE|MONTES\s?CLAROS|CURITIBA|OSASCO|BARUERI)?\s*BR$/i,"").replace(/\s*\d{2}\/\d{2}$/,"").trim() || String(d||"");
+  function fechaFatura(){ $("fat-det").hidden = true; }
+  function statusFat(f){
+    if(!f) return {t:"Sem fatura", s:"—"};
+    const v = valFat(f);
+    if(f.pago_em) return {t:"Fatura paga", s:"Paga em "+dataBR(f.pago_em)};
+    if(v===0) return {t:"Fatura zerada", s:"Fatura zerada"};
+    if(f.status==="aberta") return {t:"Fatura aberta", s:"Aberta · valor parcial"};
+    return {t:"Fatura fechada", s:"Fechada · a pagar"};
+  }
+  function graficoFaturas(fs, sel){
+    if(!fs.length) return "";
+    const i0 = Math.max(0, Math.min(fs.findIndex(f=>f.vencimento===sel)-2, fs.length-5)); const vis = fs.slice(i0, i0+5);
+    const W=340,H=170,L=56,R=30,T=12,B=34, vals = vis.map(valFat), mx = Math.max(...vals, 1);
+    const passo = [1,2,5,10,20,50,100,200,250,500,1000,2000,2500,5000].find(x=>mx/x<=5) || 5000, topo = Math.ceil(mx/passo)*passo || passo;
+    const x = i => L + (vis.length===1 ? (W-L-R)/2 : i*(W-L-R)/(vis.length-1)), y = v => T + (H-T-B)*(1 - v/topo);
+    let g = "";
+    for(let v=0; v<=topo+1e-9; v+=passo){ g += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" class="fg-l"/><text x="${L-8}" y="${y(v)+3.5}" class="fg-y">${brl(v).replace(/,00$/,"")}</text>`; }
+    const pts = vis.map((f,i)=>`${x(i)},${y(valFat(f))}`).join(" ");
+    g += `<polyline points="${pts}" class="fg-ln"/>`;
+    g += vis.map((f,i)=>{ const m=+f.vencimento.slice(5,7)-1, on=f.vencimento===sel; return `<g class="fg-p${on?" on":""}" data-venc="${f.vencimento}"><circle cx="${x(i)}" cy="${y(valFat(f))}" r="${on?6.5:5}"/><rect x="${x(i)-26}" y="${T}" width="52" height="${H-T}" fill="transparent"/><text x="${x(i)}" y="${H-12}" class="fg-x">${MESES_C[m]}/${f.vencimento.slice(2,4)}</text></g>`; }).join("");
+    return `<svg viewBox="0 0 ${W} ${H}" class="fg" role="img" aria-label="Valor das faturas por mês">${g}</svg>`;
+  }
+  function desenhaFatura(){
+    const c = (DADOS.contas||[]).find(x=>x.id===FD.id); if(!c) return fechaFatura();
+    const pf = prefConta(c.id), cor = pf.cor || corPadrao(c);
+    $("fat-det").style.setProperty("--cd-cor", cor);
+    const fs = fatsCartao(c), i = fs.findIndex(f=>f.vencimento===FD.venc), f = fs[i];
+    const st = statusFat(f), v = f ? valFat(f) : 0;
+    $("fd-logo").innerHTML = iconeHTML(c, 92); $("fd-tit").textContent = st.t;
+    const ml = f ? MESES_L[+f.vencimento.slice(5,7)-1]+"/"+f.vencimento.slice(0,4) : "—";
+    $("fd-sub").textContent = `${nomeConta(c)} · ${ml} · ${brl(v)}`;
+    $("fd-mes").textContent = f ? MESES_L[+f.vencimento.slice(5,7)-1]+" "+f.vencimento.slice(0,4) : "—";
+    $("fd-ant").disabled = i<=0; $("fd-prox").disabled = i<0 || i>=fs.length-1;
+    $("fd-graf").innerHTML = graficoFaturas(fs, FD.venc);
+    $("fd-graf").querySelectorAll("[data-venc]").forEach(g=>g.onclick=()=>{ FD.venc = g.dataset.venc; desenhaFatura(); });
+    if(!f){ $("fd-corpo").innerHTML = secao("Movimentações","Ainda não há faturas deste cartão.",""); return; }
+    const ant = fs[i-1], ini = ant && ant.fechamento ? addDia(ant.fechamento,1) : null, fim = f.fechamento;
+    const its = (DADOS.transacoes||[]).filter(t=>t.conta===c.nome && t.fatura_venc===f.vencimento && !t.transferencia).sort((a,b)=>b.data.localeCompare(a.data));
+    const periodo = ini && fim ? `Ela inclui as compras feitas de ${dataBR(ini)}/${ini.slice(0,4)} até ${dataBR(fim)}/${fim.slice(0,4)}${f.fechamento_previsto?" (fechamento previsto)":""}.` : "";
+    const linhas = its.length ? its.map(t=>{ const [ic,cr] = iconeCat(t), ent = t.tipo==="entrada";
+        return `<div class="fd-it"><span class="fd-ic" style="background:${cr}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICS[ic]||""}</svg></span><div class="cd-mid"><b>${esc(nomeBonito(lojaLimpa(t.descricao)))}</b><span>${dataBR(t.data)}${t.parcelas_total>1?` · parcela ${t.parcela_atual}/${t.parcelas_total}`:""}${t.agendada?" · prevista":""}</span></div><b class="num ${ent?"pos":"neg"}">${ent?"+":"−"} ${brl(t.valor)}</b></div>`; }).join("")
+      : `<p class="cd-txt fd-vazio">Nenhuma compra nesta fatura.</p>`;
+    const dif = f.status!=="aberta" && f.valor_oficial!=null ? Math.round((+f.valor_oficial - +f.soma_itens)*100)/100 : 0;
+    $("fd-corpo").innerHTML =
+      secao("Movimentações", `Essas são todas as movimentações incluídas nesta fatura. ${periodo}`, linhas + (its.length?`<div class="bg-tot fd-tot"><span>Total das compras</span><b class="num">${brl(+f.soma_itens)}</b></div>`:""))
+    + secao("Status", "A situação desta fatura, conforme o Itaú.",
+        cdLinha(ICD.saldo,"Valor",`<b>${brl(v)}${f.status==="aberta"&&v>0?' <span class="fd-parc">parcial</span>':""}</b>`)
+      + cdLinha(ICD.nome,"Status",`<b>${st.s}</b>`)
+      + cdLinha(ICD.cal,"Fechamento",`<b>${f.fechamento?dataBR(f.fechamento)+"/"+f.fechamento.slice(0,4):"—"}${f.fechamento_previsto?" (previsto)":""}</b>`)
+      + cdLinha(ICD.cal,"Vencimento",`<b>${dataBR(f.vencimento)}/${f.vencimento.slice(0,4)}</b>`)
+      + (dif ? cdLinha(ICD.desc,"Diferença para o total oficial",`<b>${brl(dif)}</b>`) : ""));
+  }
+  $("fd-voltar").addEventListener("click", fechaFatura);
+  $("fd-ant").addEventListener("click", ()=>{ const c=(DADOS.contas||[]).find(x=>x.id===FD.id), fs=fatsCartao(c), i=fs.findIndex(f=>f.vencimento===FD.venc); if(i>0){ FD.venc=fs[i-1].vencimento; desenhaFatura(); } });
+  $("fd-prox").addEventListener("click", ()=>{ const c=(DADOS.contas||[]).find(x=>x.id===FD.id), fs=fatsCartao(c), i=fs.findIndex(f=>f.vencimento===FD.venc); if(i>=0 && i<fs.length-1){ FD.venc=fs[i+1].vencimento; desenhaFatura(); } });
   let TOAST_T = null;
   function toast(txt){ $("toast-txt").textContent = txt+" 🎉"; $("toast").hidden = false; clearTimeout(TOAST_T); TOAST_T = setTimeout(()=>{ $("toast").hidden = true; }, 3000); }
   async function salvaConta(mud, msg){
